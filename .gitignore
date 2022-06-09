@@ -110,3 +110,7 @@ dist
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
+
+# DS Code 
+.DS_Store
+
