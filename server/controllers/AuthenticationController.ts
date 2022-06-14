@@ -16,21 +16,19 @@ module.exports = {
         try {
             const {email, password} = req.body
             const user = await userModel.findOne({
-                where: {
-                    email: email
-                }
+                email: email
             })
 
             if (!user) {
                 return res.status(403).send({
-                    error: 'The login information was incorrect 1 ' + email + ' ' + password + ' ' + user.password + ' ' + user.email
+                    error: 'The login information was incorrect'
                 })
             }
 
             const isPasswordValid = password === user.password
             if (!isPasswordValid) {
                 return res.status(403).send({
-                  error: 'The login information was incorrect 2 ' + email + ' ' + password + ' ' + user.password + ' ' + user.email
+                  error: 'The login information was incorrect'
                 })
             }
 
