@@ -5,6 +5,7 @@ module.exports = {
     const schema = Joi.object({
         username: Joi.string().alphanum().min(5).max(32).required(),
         email: Joi.string().email(),
+        age: Joi.number().min(18).max(200),
         password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{8,32}$')
       )
     });
@@ -22,6 +23,11 @@ module.exports = {
               `
             })
             break
+        case 'age':
+          res.status(400).send({
+            error: 'You must provide a valid age'
+          })
+          break
         case 'email':
           res.status(400).send({
             error: 'You must provide a valid email address'
