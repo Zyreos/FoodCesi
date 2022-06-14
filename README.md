@@ -1,44 +1,42 @@
-# installation
+# Introduction
 
-## MEVN installation
-
-```
-npm install -g mevn-cli
-```
-
-## install dependencies
-
-### Client
-
-Go to client folder :
+Once you've cloned the git repository, go into the root folder.
+in FoodCesi\ open a new CMD and enter:
 
 ```
 npm install
 ```
 
-### Server
+If it tells you there are some "high sevirity vulnerabilities", it's fine, this doesn't cause any trouble later on.\
 
-Go to server folder :
+Move then to the client folder:
+
+```
+cd ./client
+```
+
+run again:
 
 ```
 npm install
 ```
 
-If you've a problem, install Mongoose :
+Finally, start the server with
 
 ```
-npm install mongoose
+npm run serve
 ```
 
-## Environment
-
-You need to create a .env file in the server folder and insert :
+Then move to the FoodCesi/server folder:
 
 ```
-DB_URL=mongodb://localhost:27017/FoodCesi
+cd ../server
 ```
 
-After this, you need to create a Mongo database (FoodCesi) in MongoDB Compass.
+There, run one last command:
 
-![preview_1](https://user-images.githubusercontent.com/48790000/172847851-af0f3b2f-ee40-4551-baea-3aebfeea1228.png)
-![preview_2](https://user-images.githubusercontent.com/48790000/172847884-0591fac2-e042-488e-866f-e75c13a400fc.png)
+```
+node server.ts
+```
+
+
