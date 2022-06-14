@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <h1>Bienvenue sur la view d'authentification</h1>
-    <router-link to="about">Redirection vers about</router-link>
+    <h1>Bienvenue sur la view Register</h1>
     <page-register />
   </div>
 </template>

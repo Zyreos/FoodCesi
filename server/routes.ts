@@ -1,14 +1,18 @@
-express = require("express");
-app = express();
-
 const AuthenticationController = require('./controllers/AuthenticationController.ts');
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy.ts')
 
-app.post('/register', 
+module.exports = (app) => {
+  app.post('/register', 
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)
 
-app.get("/users", async (request, response) => {
+  app.post('/login', 
+    AuthenticationController.login)
+}
+
+
+
+/*app.get("/users", async (request, response) => {
     const users = await userModel.find({});
   
     try {
@@ -18,4 +22,4 @@ app.get("/users", async (request, response) => {
     }
   });
 
-  module.exports = app;
+  module.exports = app;*/

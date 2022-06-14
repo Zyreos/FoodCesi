@@ -1,8 +1,6 @@
 <template>
-  <h1>Ceci est un component Register</h1>
-  <div id="register">
-    <input type="Text" name="username" v-model="username" placeholder="Username" />
-    <input type="Number" name="age" v-model="age" placeholder="Age" />
+  <h1>Ceci est un component Login</h1>
+  <div id="login">
     <input type="Text" name="email" v-model="email" placeholder="Email" />
     <input
       type="Password"
@@ -12,7 +10,7 @@
     />
     <br/>
     <div class="error" v-html="error" />
-    <button Type="Button" @click="register">Register</button>
+    <button Type="Button" @click="login">Login</button>
   </div>
 </template>
 
@@ -21,19 +19,15 @@ import AuthenticationService from "@/services/AuthenticationService";
 export default {
   data() {
     return {
-      username: "",
-      age: 18,
       email: "",
       password: "",
       error: null,
     };
   },
   methods: {
-    async register() {
+    async login() {
       try {
-        const response = await AuthenticationService.register({
-          username: this.username,
-          age: this.age,
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password,
         });
