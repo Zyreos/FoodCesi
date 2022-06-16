@@ -1,6 +1,7 @@
 let express = require("express");
 let mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express()
 const corsOptions = {
@@ -10,9 +11,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 require('./routes.ts')(app)
-
-
-
 
 mongoose.connect('mongodb://localhost:27017/FoodCesi',
   {
