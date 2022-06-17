@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import AuthenticationService from "@/services/AuthenticationService";
+import AuthenticationService from "../../../global/services/AuthenticationService";
 export default {
   data() {
     return {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PageLogin from "@/components/LoginComponent.vue";
+import PageLogin from "../../../global/components/LoginComponent.vue";
 
 export default {
   components: {
