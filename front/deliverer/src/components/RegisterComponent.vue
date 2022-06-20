@@ -25,6 +25,7 @@ export default {
       age: 18,
       email: "",
       password: "",
+      role: "",
       error: null,
     };
   },
@@ -36,6 +37,7 @@ export default {
           age: this.age,
           email: this.email,
           password: this.password,
+          role: this.role,
         });
         console.log(response.data);
       } catch (error) {

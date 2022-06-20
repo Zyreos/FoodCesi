@@ -1,4 +1,4 @@
-const userModel = require("../models/models.ts");
+const userModel = require("../models/User.ts");
 const jwt = require('jsonwebtoken');
 const config = require('../config/config.ts')
 
