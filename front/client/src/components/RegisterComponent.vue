@@ -14,6 +14,8 @@
     <div class="error" v-html="error" />
     <button Type="Button" @click="register">Register</button>
   </div>
+  <h1 v-if="!$store.state.isUserLoggedIn">Je suis pas connecté</h1>
+  <h1 v-if="$store.state.isUserLoggedIn">Je suis connecté</h1>
 </template>
 
 <script>
@@ -37,6 +39,8 @@ export default {
           email: this.email,
           password: this.password,
         });
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
         console.log(response.data);
       } catch (error) {
         this.error = error.response.data.error
