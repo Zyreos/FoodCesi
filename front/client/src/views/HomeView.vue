@@ -1,6 +1,5 @@
 <template>
   <page-restaurant />
-  <page-restaurant />
 </template>
 
 <script lang="ts">

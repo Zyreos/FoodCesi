@@ -14,10 +14,10 @@
 
     <v-img
       height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      src="salade.jpg"
     ></v-img>
 
-    <v-card-title>Cafe Badilico</v-card-title>
+    <v-card-title>McDonald's</v-card-title>
 
     <v-card-text>
       <v-row
@@ -36,18 +36,34 @@
         <div class="grey--text ms-4">
           4.5 (413)
         </div>
+        <v-container>
+            <v-row justify="space-around">
+                <div>
+                    <v-btn
+                    class="burger"
+                    >
+                    Burger
+                    </v-btn>
+
+                    <v-btn
+                    class="fast-food"
+                    >
+                    Fast Food
+                    </v-btn>
+                </div>
+            </v-row>
+        </v-container>
       </v-row>
 
       <div class="my-4 text-subtitle-1">
-        $ • Italian, Cafe
       </div>
 
-      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+      <div>Burgers, frites & happyMeal - Livraison, sur place ou encore Click&Collect disponible</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
-    <v-card-title>Tonight's availability</v-card-title>
+    <v-card-title>Horraires d'ouvertures</v-card-title>
 
     <v-card-text>
       <v-chip-group
@@ -55,13 +71,9 @@
         active-class="deep-purple accent-4 white--text"
         column
       >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
+      <div class="open-time">Tous les jours :</div>
+        <v-chip class="timer">08:00</v-chip>
+        <v-chip>22:00</v-chip>
       </v-chip-group>
     </v-card-text>
 
@@ -71,7 +83,7 @@
         text
         @click="reserve"
       >
-        Reserve
+        Commander
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -96,3 +108,18 @@ export default defineComponent({
     },
 });
 </script>
+<style>
+    .fast-food {
+        color: white !important;
+        background-color: green;
+        margin-left: 5px;
+    }
+    .burger {
+        color: white !important;
+        background-color: orange;
+    }
+    .open-time {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+</style>
