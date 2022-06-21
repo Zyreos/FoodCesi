@@ -51,6 +51,7 @@ export default defineComponent({
           { title: 'About', icon: 'mdi-image', to: '/about' },
           { title: 'Register', icon: 'mdi-help-box', to: '/register' },
           { title: 'Login', icon: 'mdi-help-box', to: '/login' },
+          { title: 'Profile', icon: 'mdi-help-box', to: '/profile' },
 
         ],
     }),

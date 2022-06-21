@@ -39,7 +39,8 @@ const UserSchema = new mongoose.Schema(
       },
       role: {
         type: String,
-        required: true,
+        required: false,
+        
       },
       god_father: {
         type: Array,
