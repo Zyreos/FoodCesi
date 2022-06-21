@@ -1,11 +1,15 @@
 <template>
-  <h1>Page d'accueil</h1>
+  <page-restaurant />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import PageRestaurant from '@/components/Restaurant.vue'
 
 export default defineComponent({
-  name: 'HomeView'
+  name: 'HomeView',
+  components: {
+    PageRestaurant
+  }
 });
 </script>
