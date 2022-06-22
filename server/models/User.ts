@@ -108,10 +108,10 @@ UserSchema.pre('save', async function() {
   hashPassword(this);
 });
 
-const User = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
 
-User.prototype.comparePassword = function (password) {
+UserModel.prototype.comparePassword = function (password) {
   return bcrypt.compareAsync(password, this.password);
 }
 
-module.exports = User;
+module.exports = UserModel;

@@ -2,12 +2,9 @@ mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
     {
-        name: {
+        users: {
+            //type: [UserSchema.name],
             type: String,
-            required: true,
-          },
-        user: {
-            type: [UserSchema.name],
             required: true
         },
         time: {
@@ -19,7 +16,8 @@ const OrderSchema = new mongoose.Schema(
             required: true
         },
         addresses: {
-            type: [UserSchema.address],
+            //type: [UserSchema.address],
+            type: String,
             required: true
         },
         state: {
@@ -45,6 +43,6 @@ UserSchema.pre('save', async function() {
     
 });
 
-const Order = mongoose.model("Order", OrderSchema);
+const OrderModel = mongoose.model("Order", OrderSchema);
 
-module.exports = Order;
+module.exports = OrderModel;
