@@ -1,12 +1,17 @@
 import { createStore } from "vuex";
+import VuexPersister from 'vuex-persister'
+const vuexPersister = new VuexPersister({
+  overwrite: true,
+});
 
 export default createStore({
   strict: true,
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
   },
+  plugins: [vuexPersister.persist],
   getters: {},
   mutations: {
     setToken (state, token) {
