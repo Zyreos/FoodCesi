@@ -1,5 +1,6 @@
 const AuthenticationController = require('./controllers/AuthenticationController.ts');
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy.ts')
+const RestaurantController = require('./controllers/RestaurantController.ts');
 
 module.exports = (app) => {
   app.post('/register', 
@@ -8,18 +9,7 @@ module.exports = (app) => {
 
   app.post('/login', 
     AuthenticationController.login)
+
+  app.get('/restaurants',
+    RestaurantController.getAll)
 }
-
-
-
-/*app.get("/users", async (request, response) => {
-    const users = await userModel.find({});
-  
-    try {
-      response.send(users);
-    } catch (error) {
-      response.status(500).send(error);
-    }
-  });
-
-  module.exports = app;*/
