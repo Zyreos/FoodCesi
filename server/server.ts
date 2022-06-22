@@ -1,3 +1,5 @@
+export{}
+
 let express = require("express");
 let mongoose = require("mongoose");
 const cors = require("cors");
@@ -16,7 +18,7 @@ app.get('/test', (req, res)=> {
 })
 require('./routes.ts')(app)
 
-mongoose.connect('mongodb://mongo:27017/FoodCesi',
+mongoose.connect('mongodb://localhost:27017/FoodCesi',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
