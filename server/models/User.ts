@@ -1,5 +1,3 @@
-export{}
-
 const promiseBlueBird = require('bluebird');
 const bcrypt = promiseBlueBird.promisifyAll(require('bcrypt-nodejs'));
 

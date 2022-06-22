@@ -4,8 +4,6 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "nodemon --config nodemon.json server.ts",
-    "dev:debug": "nodemon --config nodemon.json --inspect-brk server.ts",
     "start": "node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,9 +23,5 @@
     "mongoose": "^6.3.6",
     "morgan": "^1.10.0",
     "vuetify": "^2.6.6"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.1"
   }
 }
