@@ -12,4 +12,7 @@ module.exports = (app) => {
 
   app.get('/restaurants',
     RestaurantController.getAll)
+
+  app.get('/restaurants/:id',
+    RestaurantController.getRestaurant)
 }
