@@ -1,21 +1,56 @@
 <template>
-  <h1>Ceci est un component Register</h1>
-  <div id="register">
-    <input type="Text" name="username" v-model="username" placeholder="Username" />
-    <input type="Number" name="age" v-model="age" placeholder="Age" />
-    <input type="Text" name="email" v-model="email" placeholder="Email" />
-    <input
-      type="Password"
-      name="Password"
-      v-model="password"
-      placeholder="Password"
-    />
-    <br/>
-    <div class="error" v-html="error" />
-    <button Type="Button" @click="register">Register</button>
+  <div v-if="!$store.state.isUserLoggedIn">
+    <v-form>
+      <v-container>
+        <v-row>
+
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="username"
+              :counter="32"
+              label="Username"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="email"
+              label="E-mail"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="password"
+              label="Password"
+              type="password"
+              required
+            ></v-text-field>
+          </v-col>
+
+        </v-row>
+
+        <v-row>
+          <v-col cols="12" sm="6">
+            <p>Age</p>
+            <v-text-field
+                    v-model="age"
+                    class="mt-0 pt-0"
+                    type="number"
+                    style="width: 80px"
+              ></v-text-field>
+          </v-col>
+        </v-row>
+        <div class="error" v-html="error" />
+        <v-btn class="mr-4" type="submit" @click="register">
+          submit
+        </v-btn>
+      </v-container>
+    </v-form>
   </div>
-  <h1 v-if="!$store.state.isUserLoggedIn">Je suis pas connecté</h1>
-  <h1 v-if="$store.state.isUserLoggedIn">Je suis connecté</h1>
+  <div v-if="$store.state.isUserLoggedIn">you're already connected</div>
 </template>
 
 <script>
@@ -42,6 +77,7 @@ export default {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         console.log(response.data);
+        this.$router.push('home');
       } catch (error) {
         this.error = error.response.data.error
       }

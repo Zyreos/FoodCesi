@@ -13,19 +13,24 @@
 
       <v-divider></v-divider>
 
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          :to="item.to"
-          link
-        >
-            <v-icon>{{ item.icon }}</v-icon>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+      <v-list dense nav>
+        <v-list-item :to="'/'" link>
+            <v-icon>mdi-view-dashboard</v-icon>
+            <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
+        <v-list-item :to="'/about'" link>
+            <v-icon>mdi-image</v-icon>
+            <v-list-item-title>About</v-list-item-title>
+        </v-list-item>
+        <v-list-item :to="'/register'" link v-if="!$store.state.isUserLoggedIn">
+            <v-icon>mdi-help-box</v-icon>
+            <v-list-item-title>Register</v-list-item-title>
+        </v-list-item>
+        <v-list-item :to="'/login'" link v-if="!$store.state.isUserLoggedIn">
+            <v-icon>mdi-help-box</v-icon>
+            <v-list-item-title>Login</v-list-item-title>
+        </v-list-item>
+        <page-disconnect />
       </v-list>
     </v-navigation-drawer>
 
@@ -45,7 +50,7 @@
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Restaurants</v-app-bar-title>
+      <v-app-bar-title>FoodCesi</v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -61,18 +66,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import PageDisconnect from "../../../global/components/DisconnectComponent.vue";
 
 export default defineComponent({
   name: "Header",
+  components: {
+    PageDisconnect,
+  },
   data: () => ({
     drawer: null, 
-    items: [
-          { title: 'Home', icon: 'mdi-view-dashboard', to: '/' },
-          { title: 'About', icon: 'mdi-image', to: '/about' },
-          { title: 'Register', icon: 'mdi-help-box', to: '/register' },
-          { title: 'Login', icon: 'mdi-help-box', to: '/login' },
-        ],
-    }),
+    })
 });
 </script>
 

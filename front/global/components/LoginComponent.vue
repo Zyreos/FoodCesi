@@ -1,17 +1,36 @@
 <template>
-  <h1>Ceci est un component Login</h1>
-  <div id="login">
-    <input type="Text" name="email" v-model="email" placeholder="Email" />
-    <input
-      type="Password"
-      name="Password"
-      v-model="password"
-      placeholder="Password"
-    />
-    <br/>
-    <div class="error" v-html="error" />
-    <button Type="Button" @click="login">Login</button>
+  <div v-if="!$store.state.isUserLoggedIn">
+    <v-form v-model="valid">
+      <v-container>
+        <v-row>
+
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="email"
+              label="E-mail"
+              required
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="password"
+              label="Password"
+              type="password"
+              required
+            ></v-text-field>
+          </v-col>
+
+        </v-row>
+
+        <div class="error" v-html="error" />
+        <v-btn class="mr-4" type="submit" @click="login">
+          submit
+        </v-btn>
+      </v-container>
+    </v-form>
   </div>
+  <div v-if="$store.state.isUserLoggedIn">you're already connected</div>
 </template>
 
 <script>
@@ -34,6 +53,7 @@ export default {
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
         console.log(response.data);
+        this.$router.push('home');
       } catch (error) {
         this.error = error.response.data.error
       }
