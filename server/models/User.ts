@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema(
       role: {
         type: String,
         default: "client",
-        required: true,
+        required: false,
       },
       god_father: {
         type: Array,
@@ -78,7 +78,7 @@ const UserSchema = new mongoose.Schema(
       },
       status: {
         type: String,
-        required: true
+        required: false
       },
       category: {
         type: String,
