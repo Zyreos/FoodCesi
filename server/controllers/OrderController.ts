@@ -1,6 +1,5 @@
 const Order = require("../models/Order.ts");
 const User = require("../models/User.ts")
-const authController = require("./AuthenticationController.ts")
 let mongoose = require("mongoose");
 
 module.exports = class OrderConrtoller {

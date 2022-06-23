@@ -6,6 +6,10 @@ const OrderSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
+        articles: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Article"
+        }],
         time: {
             type: String,
             required: false

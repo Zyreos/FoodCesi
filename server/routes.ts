@@ -2,6 +2,7 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy.ts')
 const RestaurantController = require('./controllers/RestaurantController.ts');
 const OrderController = require('./controllers/OrderController.ts');
+const ArticleController = require('./controllers/ArticleController.ts');
 
 module.exports = (app) => {
   app.post('/register', 
@@ -22,4 +23,10 @@ module.exports = (app) => {
 
   app.get('/orders/:id',
   OrderController.getOrdersByUser)
+
+  app.post('/create_article',
+  ArticleController.createArticle)
+
+  app.get('/articles/:id',
+  ArticleController.getArticlesByUser)
 }

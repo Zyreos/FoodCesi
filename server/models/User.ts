@@ -107,6 +107,10 @@ const UserSchema = new mongoose.Schema(
       orders: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Order"
+      }],
+      articles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Article"
       }]
     },
     { timestamps: true },
