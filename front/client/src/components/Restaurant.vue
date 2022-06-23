@@ -5,7 +5,7 @@
   >
     <v-img
       height="50%"
-      src="salade.jpg"
+      src="salade-bar.jpg"
     ></v-img>
 
     <v-card-title>McDonald's</v-card-title>
