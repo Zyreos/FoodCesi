@@ -8,8 +8,12 @@ const corsOptions = {
   origin: 'http://localhost:8080',
   optionsSuccessStatus: 200 // For legacy browser support
 }
+
 app.use(cors(corsOptions));
 app.use(express.json());
+app.get('/test', (req, res)=> {
+  res.send("Sucess")
+})
 require('./routes.ts')(app)
 
 mongoose.connect('mongodb://localhost:27017/FoodCesi',

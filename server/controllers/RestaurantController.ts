@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 module.exports = {
     //get all restaurants availables
-    async getAll(req, res) {
+    async getAllRestaurants(req, res) {
         userModelRestaurants
             .find({role: 'restorer', status: 'active'})
             .select('username category description schedule adress')

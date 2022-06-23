@@ -1,15 +1,15 @@
 <template>
-  <page-restaurant />
+  <page-restaurants />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import PageRestaurant from '@/components/Restaurant.vue'
+import PageRestaurants from '@/components/ListRestaurantsComponents.vue'
 
 export default defineComponent({
   name: 'HomeView',
   components: {
-    PageRestaurant
+    PageRestaurants
   }
 });
 </script>

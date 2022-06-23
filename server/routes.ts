@@ -11,7 +11,7 @@ module.exports = (app) => {
     AuthenticationController.login)
 
   app.get('/restaurants',
-    RestaurantController.getAll)
+    RestaurantController.getAllRestaurants)
 
   app.get('/restaurants/:id',
     RestaurantController.getRestaurant)
