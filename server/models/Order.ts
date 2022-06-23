@@ -2,46 +2,40 @@ let mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
     {
-        users: {
-            //type: [UserSchema.name],
-            type: String,
-            required: true
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
         },
         time: {
             type: String,
-            required: true
+            required: false
         },
         eta: {
             type: String,
-            required: true
+            required: false
         },
-        addresses: {
+        address: {
             //type: [UserSchema.address],
             type: String,
-            required: true
+            required: false
         },
         state: {
             type: String,
             default: "Confirmation",
-            required: true
+            required: false
         },
         content: {
             type: Map,
             of: String,
-            required: true
+            required: false
         },
         price: {
-            type: Map,
-            of: String,
-            required: true
+            type: Number,
+            required: false
         }
     },
     { timestamps: true },
   );
-
-UserSchema.pre('save', async function() {
-    
-});
 
 const OrderModel = mongoose.model("Order", OrderSchema);
 

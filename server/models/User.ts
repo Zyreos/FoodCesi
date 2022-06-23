@@ -103,7 +103,11 @@ const UserSchema = new mongoose.Schema(
           required: false
         },
         required: false
-      }
+      },
+      orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+      }]
     },
     { timestamps: true },
   );
