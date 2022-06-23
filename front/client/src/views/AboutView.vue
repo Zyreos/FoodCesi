@@ -67,15 +67,6 @@
               McDonald's
             </v-card-title>
 
-            <v-rating
-            :value="5"
-            color="amber"
-            dense
-            readonly
-            size="14"
-            class="stars"
-            ></v-rating>
-
             <v-card-actions>
               <v-btn
                 color="deep-purple lighten-2"
