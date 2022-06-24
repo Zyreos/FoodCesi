@@ -43,7 +43,7 @@
     <br />
     <div id="container-basket">
         <h2>Basket</h2>
-        <div id="list-articles">
+        <div id="list-articles" v-if="basket.articles.length > 0">
             <div class="basket-articles" v-for="article in basket.articles">
                 <p>{{article.nbArticles}}</p>
                 <p>{{article.price}}</p>
@@ -51,12 +51,31 @@
                 <v-btn block color="secondary" @click="RemoveQuantityArticle(article, 1)">Remove</v-btn>
             </div>
         </div>
+        <div v-else>
+            <p class="error">Basket is empty</p>
+        </div>
+    </div>
+    <br/>
+    <div id="container-payment" v-if="basket.articles.length > 0">
+        <h2>Payment</h2>
+        <v-row>
+            <v-col cols="4">
+                <v-text-field
+                    label="Tip"
+                    prefix="$"
+                    v-model="basket.tip"
+                ></v-text-field>
+            </v-col>
+        </v-row>
+        <p>Total price: {{ basket.total_price }} $</p>
+        <v-btn block color="primary" @click="Pay()">Payment</v-btn>
     </div>
 </template>
 
 <script>
 import RestaurantService from "../../../global/services/RestaurantService";
 import ArticleService from "../../../global/services/ArticleService";
+import OrderService from "../../../global/services/OrderService";
 export default {
     data () {
         return {
@@ -67,12 +86,19 @@ export default {
                 articles: [],
                 idUser: null,
                 idRestaurant: null,
-                tip: 0,
-                address: null
+                tip: 2,
+                address: null,
+                total_price: 0
             }
         }
     },
     methods: {
+        setTotalPrice() {
+            const sum = this.basket.articles.reduce((accumulator, object) => {
+                return accumulator + (object.price * object.nbArticles);
+            }, 0);
+            this.basket.total_price = sum + this.basket.tip;
+        },
         getArticleById(idArticle) {
             const article = this.articles.find(x => x._id === idArticle);
             return article;
@@ -85,6 +111,7 @@ export default {
                 //create the article in the basket
                 this.AddNewArticle(article);
             }
+            this.setTotalPrice();
         },
         AddNewArticle(article) {            
             this.basket.articles.push({
@@ -109,9 +136,17 @@ export default {
             if(this.basket.articles[index].nbArticles <= 0) {
                 this.RemoveArticle(index);
             }
+            this.setTotalPrice();
         },
         RemoveArticle(articleIndex) {
             this.basket.articles.splice(articleIndex, 1);
+        },
+        Pay() {
+            console.log(this.basket);
+            const response = OrderService.newOrder({
+                basket: this.basket
+            });
+            console.log(response);
         }
     },
     async mounted() {
