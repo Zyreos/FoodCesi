@@ -6,7 +6,7 @@ module.exports = {
     async getAllRestaurants(req, res) {
         userModelRestaurants
             .find({role: 'restorer', status: 'active'})
-            .select('username category description schedule adress')
+            .select('username category description schedule adress name_restaurant')
             .then(function(restaurants) {
                 try {
                     res.send({

@@ -53,27 +53,17 @@
 
     <v-flex d-flex>
       <v-layout wrap class="layout">
-        <div class="test">
+        <div class="card-component">
           <v-card
-            v-for="restaurant in restaurants"
-              :loading="loading"
+            v-for="restaurant in restaurants.slice(0, 5)"
               class="ma-3"
               max-width=""
             >
-            <template slot="progress">
-              <v-progress-linear
-                color="deep-purple"
-                height="10"
-                indeterminate
-              ></v-progress-linear>
-            </template>
-
             <v-img
               height="200px"
-              src={{restaurant.image}}
             ></v-img>
 
-            <v-card-title>{{ restaurant.username }}</v-card-title>
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
 
             <v-card-text>
             
@@ -115,8 +105,10 @@
                     column
                     >
                       <div class="open-time">Tous les jours :</div>
-                      <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
-                      <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
                   </v-chip-group>
                 </v-card-text>
               </div>
@@ -127,9 +119,75 @@
     </v-flex>
   </div>
   <div class="chinois">
-      <h3>Les Asiatiques</h3>
+      <h3>Nos Suggestions</h3>
   </div>
   <v-divider></v-divider>
+  <v-flex d-flex>
+      <v-layout wrap class="layout">
+        <div class="card-component">
+          <v-card
+            v-for="restaurant in restaurants.slice(5, 10)"
+              class="ma-3"
+              max-width=""
+            >
+            <v-img
+              height="200px"
+            ></v-img>
+
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
+
+            <v-card-text>
+            
+                <v-row justify="space-around">
+                  <div>
+                    <v-btn
+                    class="fast-food"
+                    >
+                    {{ restaurant.category }}
+                    </v-btn>
+                  </div>
+                </v-row>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="reserve(restaurant._id)"
+              >
+                Commander
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                @click="show = !show"
+              >
+                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <div v-show="show">
+                <v-divider></v-divider>
+                <v-card-title>Horraires d'ouvertures</v-card-title>
+                <v-card-text>
+                  <v-chip-group
+                    v-model="selection"
+                    active-class="deep-purple accent-4 white--text"
+                    column
+                    >
+                      <div class="open-time">Tous les jours :</div>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
+                  </v-chip-group>
+                </v-card-text>
+              </div>
+            </v-expand-transition>
+          </v-card>
+        </div>
+      </v-layout>
+    </v-flex>
 </template>
 
 <script>
@@ -140,7 +198,7 @@ export default defineComponent({
     name: 'Restaurant',
     data: () => ({
         show: false,
-        restaurants: null,
+        restaurants: [],
         error: null,
         loading: false,
         selection: 1,
@@ -232,8 +290,14 @@ export default defineComponent({
     .stars {
       margin-left: 5px;
     }
-    .test {
+    .card-component {
       display: flex;
+    }
+    .open-hours {
+      justify-content: center;
+      margin-right: 10px;
+      margin-top: 10px;
+      max-height: 50%;
     }
     
 </style>
