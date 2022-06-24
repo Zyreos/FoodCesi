@@ -42,6 +42,16 @@
               >
               Course
             </v-btn>
+            <v-btn
+              class="indien"
+              >
+              Indien
+            </v-btn>
+            <v-btn
+              class="pates"
+              >
+              Pates
+            </v-btn>
         </div>
       </v-flex>
     </v-layout>
@@ -70,7 +80,7 @@
                 <v-row justify="space-around">
                   <div>
                     <v-btn
-                    class="fast-food"
+                    v-bind:class="categories[restaurant.category]"
                     >
                     {{ restaurant.category }}
                     </v-btn>
@@ -140,8 +150,8 @@
             
                 <v-row justify="space-around">
                   <div>
-                    <v-btn
-                    class="fast-food"
+                    <v-btn 
+                    v-bind:class="categories[restaurant.category]"
                     >
                     {{ restaurant.category }}
                     </v-btn>
@@ -202,6 +212,17 @@ export default defineComponent({
         error: null,
         loading: false,
         selection: 1,
+        categories: {
+          "burger": 'burger',
+          "asia": 'asia', 
+          "fast food": 'fast-food',
+          "course": 'course',
+          "vegan": 'vegan', 
+          "pizza": 'pizza',
+          "indien": 'indien', 
+          "pates": 'pates',
+        }
+        
       }),
     methods: {
       reserve (idRestaurant) {
@@ -276,6 +297,20 @@ export default defineComponent({
     .pizza {
         color: white !important;
         background-color: blue;
+        max-height: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .indien {
+        color: white !important;
+        background-color: rgb(0, 0, 0);
+        max-height: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .pates {
+        color: white !important;
+        background-color: brown;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
