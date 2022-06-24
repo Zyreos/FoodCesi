@@ -24,7 +24,7 @@ module.exports = {
         if(mongoose.Types.ObjectId.isValid(req.params.id)) {
             userModelRestaurants
                 .findById(req.params.id)
-                .select('username category description schedule adress status role')
+                .select('username category description schedule address status role')
                 .then(function(restaurant) {
                     try {
                         if(restaurant.role !== 'restorer' || restaurant.status !== 'active') {
