@@ -3,6 +3,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const RestaurantController = require('./controllers/RestaurantController.ts');
 const OrderController = require('./controllers/OrderController.ts');
 const ArticleController = require('./controllers/ArticleController.ts');
+const UserController = require('./controllers/UserController.ts');
 
 module.exports = (app) => {
   app.post('/register', 
@@ -11,6 +12,9 @@ module.exports = (app) => {
 
   app.post('/login', 
     AuthenticationController.login)
+
+  app.get('/users',
+    UserController.getAllUsers)
 
   app.get('/restaurants',
     RestaurantController.getAllRestaurants)
