@@ -21,6 +21,7 @@ module.exports = {
           message: Joi.string()
         }).optional(),
         status: Joi.string().default("active").optional(),
+        category: Joi.string().optional(),
         description: Joi.string().optional(),
         schedule: Joi.object({
           start: Joi.string(),

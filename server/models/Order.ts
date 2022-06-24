@@ -3,45 +3,71 @@ let mongoose = require("mongoose");
 const OrderSchema = new mongoose.Schema(
     {
         users: {
-            //type: [UserSchema.name],
-            type: String,
-            required: true
+            user_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            restorer_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            deliverer_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }
         },
+        articles: [{
+            article_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Article"
+            },
+            quantity: {
+                type: Number,
+                required: false 
+            }
+        }],
         time: {
-            type: String,
-            required: true
+            type: Date,
+            required: false
         },
         eta: {
-            type: String,
-            required: true
+            type: Number,
+            required: false
         },
-        addresses: {
-            //type: [UserSchema.address],
+        address: {
             type: String,
-            required: true
+            required: false
         },
         state: {
             type: String,
             default: "Confirmation",
-            required: true
+            required: false
         },
-        content: {
-            type: Map,
-            of: String,
-            required: true
-        },
+        content: [{
+            type: String,
+            required: false
+        }],
         price: {
-            type: Map,
-            of: String,
-            required: true
+            fee_deliverer: {
+                type: Number,
+                required: false
+            },
+            fee_application: {
+                type: Number,
+                required: false
+            },
+            tip: {
+                type: Number,
+                required: false
+            },
+            total_price: {
+                type: Number,
+                required: false
+            },
         }
     },
     { timestamps: true },
   );
-
-UserSchema.pre('save', async function() {
-    
-});
 
 const OrderModel = mongoose.model("Order", OrderSchema);
 

@@ -107,7 +107,15 @@ const UserSchema = new mongoose.Schema(
           required: false
         },
         required: false
-      }
+      },
+      orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+      }],
+      articles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Article"
+      }]
     },
     { timestamps: true },
   );
