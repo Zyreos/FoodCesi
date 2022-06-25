@@ -34,6 +34,12 @@ module.exports = (app) => {
   app.get('/articles/:id',
   ArticleController.getArticlesByUser)
 
+  app.get('/users/:id',
+  UserController.getUserById)
+
   app.delete('/users/:id',
     UserController.deleteUser)
+  
+  app.put('/users/:id',
+  UserController.updateUser)
 }
