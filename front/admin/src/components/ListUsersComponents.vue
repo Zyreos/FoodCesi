@@ -26,7 +26,10 @@
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td>{{ user.status }}</td>
-        <td style="display:flex; justify-content: space-evenly"><v-btn>Action</v-btn> <v-btn color="error" plain>Delete</v-btn></td>
+        <td style="display:flex; justify-content: space-evenly">
+          <v-btn>Action</v-btn>
+          <v-btn color="error" v-on:Click="deleteUser(user._id)">Delete</v-btn>
+        </td>
       </tr>
     </tbody>
   </v-table>
@@ -37,27 +40,29 @@ import { defineComponent } from 'vue';
 import UserService from "../../../global/services/UserService";
 
 export default defineComponent({
-    name: 'User',
-    data: () => ({
-        users: null,
-        error: null,
-        loading: false,
-        selection: 1,
-      }),
-      methods: {
-      reserve (idUser) {
-        this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-      },
+  name: 'Users',
+  data() 
+  {
+    return {users:null}
+  },
+  methods: 
+  {
+    getData(){
+      UserService.getAllUsers().then((result) => {
+        console.log(result)
+        this.users = result.data
+      });
     },
-    async mounted() {
-        try {
-            this.users = (await UserService.getAllUsers()).data;
-            console.log(this.users);
-        } catch (err) {
-            this.error = err.message;
-        }
+
+    deleteUser(id){
+      UserService.deleteUser(id).then(()=>{
+        this.getData()
+      });
     }
+  },
+  async mounted() {
+    this.getData();
+  }
 });
 </script>
 
