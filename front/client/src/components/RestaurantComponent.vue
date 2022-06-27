@@ -46,7 +46,6 @@
                         <p>{{tmpArticle.name}}</p>
                         <p>{{tmpArticle.category}}</p>
                         <p>{{tmpArticle.description}}</p>
-                        
                     </div>
                     <br/>
                 </v-card-text> 
@@ -71,7 +70,7 @@
                         <v-card-actions>
                             <v-btn class="ma-2" color="secondary" @click="AddQuantityArticle(article, 1)"><v-icon>mdi-plus</v-icon></v-btn>
                             <v-spacer></v-spacer>
-                            {{article.nbArticles}}
+                            {{article.quantity}}
                             <v-spacer></v-spacer>
                             <v-btn class="ma-2" color="secondary" @click="RemoveQuantityArticle(article, 1)"><v-icon>mdi-minus</v-icon></v-btn>
                             <v-spacer></v-spacer>
@@ -98,7 +97,8 @@
                 ></v-text-field> 
             </v-col>
         </v-row>
-        <p>Total price: {{ basket.total_price }} $</p>
+        <p>Total price: {{ basket.total_price }}$ + ({{ basket.tip }}$ of tip)</p>
+        <br/>
         <v-btn block color="primary" @click="Pay()">Payment</v-btn>
     </div>
 </template>
@@ -127,9 +127,9 @@ export default {
     methods: {
         setTotalPrice() {
             const sum = this.basket.articles.reduce((accumulator, object) => {
-                return accumulator + (object.price * object.nbArticles);
+                return accumulator + (object.price * object.quantity);
             }, 0);
-            this.basket.total_price = sum + this.basket.tip;
+            this.basket.total_price = sum;
         },
         getArticleById(idArticle) {
             const article = this.articles.find(x => x._id === idArticle);
@@ -147,7 +147,7 @@ export default {
         },
         AddNewArticle(article) {            
             this.basket.articles.push({
-                nbArticles: 1,
+                quantity: 1,
                 idArticle: article._id,
                 price: article.price,
                 name: article.name,
@@ -155,21 +155,18 @@ export default {
             });
         },
         AddQuantityArticle(article, nbArticlesAdd) {
-            console.log(this.basket.articles);
-            console.log(article);
             const index = this.basket.articles.findIndex(x => (x.idArticle === article._id) || (x.idArticle === article.idArticle));
-            console.log(index);
-            this.basket.articles[index].nbArticles = this.basket.articles[index].nbArticles + nbArticlesAdd;
+            this.basket.articles[index].quantity = this.basket.articles[index].quantity + nbArticlesAdd;
             //if quantity > quantity available
-            if(this.basket.articles[index].nbArticles > article.available_quantity) {
-                this.basket.articles[index].nbArticles = article.available_quantity;
+            if(this.basket.articles[index].quantity > article.available_quantity) {
+                this.basket.articles[index].quantity = article.available_quantity;
             }
         },
         RemoveQuantityArticle(article, nbArticlesAdd) {
             const index = this.basket.articles.findIndex(x => x.idArticle === article.idArticle);
-            this.basket.articles[index].nbArticles = this.basket.articles[index].nbArticles - nbArticlesAdd;
+            this.basket.articles[index].quantity = this.basket.articles[index].quantity - nbArticlesAdd;
             //if quantity is null, remove product from basket
-            if(this.basket.articles[index].nbArticles <= 0) {
+            if(this.basket.articles[index].quantity <= 0) {
                 this.RemoveArticle(index);
             }
             this.setTotalPrice();

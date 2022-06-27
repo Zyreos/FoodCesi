@@ -47,24 +47,27 @@ module.exports = class OrderConrtoller {
     }
 
     static async createOrder(req, res) {
+        const content = req.body.basket.articles.map(
+            obj => {
+                return obj.quantity + " x " + obj.name + ", Unit Price: " + obj.price + "$, Total Price: " + obj.price * obj.quantity + "$";
+            }
+        );
         const order = new Order({
             users: {
-                user_id: req.params.body.user_id,
-                restorer_id: req.params.body.restorer_id,
+                user_id: req.body.basket.idUser,
+                restorer_id: req.body.basket.idRestaurant,
                 },
-                articles: [{
-                    article_id: req.params.body.article_id,
-                    quantity: req.params.body.quantity
-                }],
-                time: req.params.body.eta,
-                address: req.params.body.address,
-                state: req.params.body.state,
-                content: req.params.body.content,
+                articles: req.body.basket.articles,
+                time: Date.now(),
+                eta: req.body.basket.eta,
+                address: req.body.basket.address,
+                state: req.body.basket.state,
+                content: content,
                 price: {
-                    fee_deliverer: req.params.body.fee_deliverer,
-                    fee_application: req.params.body.fee_application,
-                    tip: req.params.body.tip,
-                    total_price: req.params.body.total_price,
+                    fee_deliverer: 2,
+                    fee_application: 2,
+                    tip: req.body.basket.tip,
+                    total_price: req.body.basket.total_price,
                 }
         });
         try {
