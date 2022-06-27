@@ -12,7 +12,8 @@
           <v-btn v-on:Click="getAll()">All
             </v-btn>
           <v-btn v-for="category in categories" v-on:Click="getRestaurantsBycategory(category.category)"
-              class="vegan">
+              v-bind:class="swancate[category.category]"
+              >
               {{category.category}}
             </v-btn>
         </div>
@@ -44,7 +45,7 @@
                 <v-row justify="space-around">
                   <div>
                     <v-btn
-                    v-bind:class="categories[restaurant.category]"
+                    v-bind:class="swancate[restaurant.category]"
                     >
                     {{ restaurant.category }}
                     </v-btn>
@@ -116,7 +117,7 @@
                 <v-row justify="space-around">
                   <div>
                     <v-btn 
-                    v-bind:class="categories[restaurant.category]"
+                    v-bind:class="swancate[restaurant.category]"
                     >
                     {{ restaurant.category }}
                     </v-btn>
@@ -179,7 +180,17 @@ export default defineComponent({
         loading: false,
         selection: 1,
         category: null,
-        categories: []
+        categories: [],
+        swancate: {
+          "burger": 'burger',
+          "asia": 'asia', 
+          "fast food": 'fast-food',
+          "course": 'course',
+          "vegan": 'vegan', 
+          "pizza": 'pizza',
+          "indien": 'indien', 
+          "pates": 'pates',
+        }
       }),
     methods: {
       reserve (idRestaurant) {
