@@ -9,7 +9,7 @@
     <v-layout>
       <v-flex>
         <div class="categories">
-          <v-btn
+          <v-btn 
               class="burger"
               >
               Burger
@@ -70,6 +70,7 @@
               max-width=""
             >
             <v-img
+              src={{restaurant.profile_picture}}
               height="200px"
             ></v-img>
 
