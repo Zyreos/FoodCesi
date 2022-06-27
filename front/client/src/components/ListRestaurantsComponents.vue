@@ -67,10 +67,10 @@
           <v-card
             v-for="restaurant in restaurants.slice(0, 5)"
               class="ma-3"
-              max-width=""
+              width="264px"
             >
             <v-img
-              src={{restaurant.profile_picture}}
+              :src="restaurant.profile_picture"
               height="200px"
             ></v-img>
 
@@ -139,9 +139,10 @@
           <v-card
             v-for="restaurant in restaurants.slice(5, 10)"
               class="ma-3"
-              max-width=""
+              width="264px"
             >
             <v-img
+              :src="restaurant.profile_picture"
               height="200px"
             ></v-img>
 
@@ -171,13 +172,13 @@
               <v-spacer></v-spacer>
               <v-btn
                 icon
-                @click="show = !show"
+                @click="show1 = !show1"
               >
-                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                <v-icon>{{ show1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
               </v-btn>
             </v-card-actions>
             <v-expand-transition>
-              <div v-show="show">
+              <div v-show="show1">
                 <v-divider></v-divider>
                 <v-card-title>Horraires d'ouvertures</v-card-title>
                 <v-card-text>
@@ -209,6 +210,7 @@ export default defineComponent({
     name: 'Restaurant',
     data: () => ({
         show: false,
+        show1: false,
         restaurants: [],
         error: null,
         loading: false,

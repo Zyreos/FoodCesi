@@ -6,7 +6,7 @@ module.exports = {
     async getAllRestaurants(req, res) {
         userModelRestaurants
             .find({role: 'restorer', status: 'active'})
-            .select('username category description schedule adress name_restaurant')
+            .select('username category description schedule adress name_restaurant profile_picture')
             .then(function(restaurants) {
                 try {
                     res.send({
@@ -24,7 +24,7 @@ module.exports = {
         if(mongoose.Types.ObjectId.isValid(req.params.id)) {
             userModelRestaurants
                 .findById(req.params.id)
-                .select('username category description schedule address status role')
+                .select('username category description schedule address status role profile_picture')
                 .then(function(restaurant) {
                     try {
                         if(restaurant.role !== 'restorer' || restaurant.status !== 'active') {
