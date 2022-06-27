@@ -10,10 +10,46 @@
     </div>
 
     <div v-if="$store.state.isUserLoggedIn">
-        <p> Hello, {{ $store.state.user.username}}!</p>
-        <p>Age: {{ $store.state.user.age}}</p>
-        <p>Email: {{ $store.state.user.email}}</p>
-        <br/>
+    <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        >
+        <div>
+            <p>Name</p>
+            <v-col cols="12" md="4">
+            <v-text-field
+              v-model="username"
+              :counter="32"
+              required
+            >{{ $store.state.user.username}}</v-text-field>
+          </v-col>
+            <p>Email</p>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="email"
+              required
+            >{{ $store.state.user.email}}</v-text-field>
+          </v-col>
+            <v-col >
+            <p>Age</p>
+            <v-text-field
+                    v-model="age"
+                    type="number"
+                    style="width: 80px"
+              >{{ $store.state.user.age}}</v-text-field>
+          </v-col>
+            <v-btn
+            :disabled="!valid"
+            color="success"
+            class="mr-4"
+            @click="validate"
+            >
+            Submit
+            </v-btn>
+        </div>
+    </v-form>
+        
         <div id="container-orders" v-if="orders">
             <h2>My orders</h2>
             <br/>
