@@ -8,54 +8,15 @@
         Exemple ci dessous d'une boucle for pour chaque restaurant, tu peux t'inspirer de ça pour rajouter des élements -->
     <v-layout>
       <v-flex>
-        <div class="categories">
-          <v-btn
-              @click="select()"
-              class="burger"
+        <div class="categories" v-for="category in categories">
+          <v-btn v-on:Click="getRestaurantsBycategory(category.category)"
+              class={{category.category}}
               >
-              Burger
-            </v-btn>
-
-            <v-btn
-              class="fast-food"
-              >
-              Fast Food
-            </v-btn>
-            <v-btn
-              class="asia"
-              >
-              Asia
-            </v-btn>
-
-            <v-btn
-              class="pizza"
-              >
-              Pizza
-            </v-btn>
-            <v-btn
-              class="vegan"
-              >
-              Vegan
-            </v-btn>
-
-            <v-btn
-              class="course"
-              >
-              Course
-            </v-btn>
-            <v-btn
-              class="indien"
-              >
-              Indien
-            </v-btn>
-            <v-btn
-              class="pates"
-              >
-              Pates
+              {{category.category}}
             </v-btn>
         </div>
       </v-flex>
-    </v-layout>
+    </v-layout> 
   
     <div class="popular">
       <h3>Les plus populaires</h3>
@@ -216,17 +177,8 @@ export default defineComponent({
         error: null,
         loading: false,
         selection: 1,
-        categories: {
-          "burger": 'burger',
-          "asia": 'asia', 
-          "fast food": 'fast-food',
-          "course": 'course',
-          "vegan": 'vegan', 
-          "pizza": 'pizza',
-          "indien": 'indien', 
-          "pates": 'pates',
-        }
-        
+        category: null,
+        categories: []
       }),
     methods: {
       reserve (idRestaurant) {
@@ -236,18 +188,22 @@ export default defineComponent({
         //redirection to the restaurant page by id
         this.$router.push({ name: 'Restaurant', params: { id: idRestaurant } })
       },
-      select () {
-        this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-
-        //redirection to the restaurant page by id
-        this.$router.push({ name: 'Category'})
+      getRestaurantsBycategory(category){
+        this.category = category
+        //console.log(category)
+        RestaurantService.getRestaurantsByCategory(category).then((res) => {
+          console.log(res.data.restaurants)
+          this.restaurants = res.data.restaurants
+        })
       },
+        //this.restaurants = sorted.data.restaurants;
     },
     async mounted() {
         try {
             this.restaurants = (await RestaurantService.getAllRestaurants()).data.restaurants;
+            this.categories = (await RestaurantService.getAllCategories()).data.restaurants;
             console.log(this.restaurants);
+            console.log(this.categories);
         } catch (err) {
             this.error = err.message;
         }
