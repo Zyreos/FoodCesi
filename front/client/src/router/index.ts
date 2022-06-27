@@ -40,6 +40,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "Profile",
     component: ProfileView,
   },
+  {
+    path: "/category",
+    name: "Category",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/RestaurantCategory.vue"),
+  },
 ];
 
 const router = createRouter({

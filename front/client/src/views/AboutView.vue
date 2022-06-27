@@ -1,83 +1,109 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <div class="categories">
-         <v-btn
-            class="burger"
-            >
-            Burger
-          </v-btn>
+  <div class="error" v-if="error">
+        {{error}}
+  </div>
+  <div id="container-list-restaurants">
+    <!-- TODO : Il faut créer les balises HTML pour afficher les restaurants.
+        Les données des restaurants sont dans la data() restaurants. 
+        Exemple ci dessous d'une boucle for pour chaque restaurant, tu peux t'inspirer de ça pour rajouter des élements -->
+    <v-layout>
+      <v-flex>
+        <div class="categories">
+          <v-btn
+              @click="showtest =  !showtest"
+              v-bind:class="{ 'burger': showtest, 'noburger': !showtest }"
+              >
+            {{showtest ? 'Burger' : 'Burger' }}
+            </v-btn>
 
-          <v-btn
-            class="fast-food"
-            >
-            Fast Food
-          </v-btn>
-          <v-btn
-            class="asia"
-            >
-            Asia
-          </v-btn>
+            <v-btn
+              @click="showfast =  !showfast"
+              v-bind:class="{ 'fast-food': showfast, 'nofast-food': !showfast }"
+              >
+            {{showtest ? 'Fast Food' : 'Fast Food' }}
+            </v-btn>
+            <v-btn
+              class="asia"
+              >
+              Asia
+            </v-btn>
 
-          <v-btn
-            class="pizza"
-            >
-            Pizza
-          </v-btn>
-          <v-btn
-            class="vegan"
-            >
-            Vegan
-          </v-btn>
+            <v-btn
+              class="pizza"
+              >
+              Pizza
+            </v-btn>
+            <v-btn
+              class="vegan"
+              >
+              Vegan
+            </v-btn>
 
-          <v-btn
-            class="course"
-            >
-            Course
-          </v-btn>
-      </div>
-    </v-flex>
-  </v-layout>
+            <v-btn
+              class="course"
+              >
+              Course
+            </v-btn>
+            <v-btn
+              class="indien"
+              >
+              Indien
+            </v-btn>
+            <v-btn
+              class="pates"
+              >
+              Pates
+            </v-btn>
+        </div>
+      </v-flex>
+    </v-layout>
   
-    <div class="popular">
-      <h3>Les plus populaires</h3>
+    <div class="popular" >
+      <h3 v-show="showtest">{{showtest ? 'Les plus populaires' : '' }}</h3>
     </div>
-     <v-divider></v-divider>
+    <div class="popular" >
+      <h3 v-show="!showburger">{{showtest ? '' : 'Les Burgers' }}</h3>
+    </div>
+    <v-divider v-show="!showtest"></v-divider>
+     <v-divider v-show="showtest"></v-divider>
+
     <v-flex d-flex>
       <v-layout wrap class="layout">
-        <v-flex md4>
-          <v-card
-            :loading="loading"
-            class="ma-3"
-            max-width="374"
-          >
-            <template slot="progress">
-              <v-progress-linear
-                color="deep-purple"
-                height="10"
-                indeterminate
-              ></v-progress-linear>
-           </template>
+        <div class="card-component">
+          <v-card v-show="showtest && showfast"
+            v-for="restaurant in restaurants.slice(0, 5)"
+              class="ma-3"
+              width="264px"
+            >
             <v-img
-            src="mcdo.jpg"
-            height="200px"
+              :src="restaurant.profile_picture"
+              height="200px"
             ></v-img>
 
-            <v-card-title>
-              McDonald's
-            </v-card-title>
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
 
+            <v-card-text>
+            
+                <v-row justify="space-around">
+                  <div>
+                    <v-btn
+                    v-bind:class="categories[restaurant.category]"
+                    >
+                    {{ restaurant.category }}
+                    </v-btn>
+                  </div>
+                </v-row>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
             <v-card-actions>
               <v-btn
                 color="deep-purple lighten-2"
                 text
-                @click="reserve"
+                @click="reserve(restaurant._id)"
               >
-                Reserve
+                Commander
               </v-btn>
-
               <v-spacer></v-spacer>
-
               <v-btn
                 icon
                 @click="show = !show"
@@ -85,522 +111,342 @@
                 <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
               </v-btn>
             </v-card-actions>
-
             <v-expand-transition>
               <div v-show="show">
                 <v-divider></v-divider>
-
+                <v-card-title>Horraires d'ouvertures</v-card-title>
                 <v-card-text>
                   <v-chip-group
                     v-model="selection"
-                    active-class="deep-purple accent-4 wihte--text"
+                    active-class="deep-purple accent-4 white--text"
                     column
                     >
-                    <v-chip>5:30PM</v-chip>
-
-                    <v-chip>7:30PM</v-chip>
-
-                    <v-chip>8:00PM</v-chip>
-
-                    <v-chip>9:00PM</v-chip>
+                      <div class="open-time">Tous les jours :</div>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
                   </v-chip-group>
                 </v-card-text>
               </div>
             </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="burger-king.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Burger King
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show1 = !show1"
-            >
-              <v-icon>{{ show1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show1">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="indien.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Indien
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show2 = !show2"
-            >
-              <v-icon>{{ show2 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show2">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="pates.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Marcucci
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show3 = !show3"
-            >
-              <v-icon>{{ show3 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show3">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="pizza-denis.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Pizza Denis
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show4 = !show4"
-            >
-              <v-icon>{{ show4 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show4">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-       </v-flex>       
-    </v-layout>
-  </v-flex>
-  <div class="chinois">
-      <h3>Les Asiatiques</h3>
+          </v-card>
+        </div>
+      </v-layout>
+    </v-flex>
   </div>
-  <v-divider></v-divider>
-
+  <div class="chinois">
+      <h3 v-show="showtest">{{showtest ? 'Nos Suggestions' : 'Les burgers' }}</h3>
+  </div>
+  <v-divider v-show="showtest" ></v-divider>
   <v-flex d-flex>
       <v-layout wrap class="layout">
-        <v-flex md4>
-          <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="pizza-michel.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Pizza Michel
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
+        <div class="card-component">
+          <v-card v-show="showtest && showfast"
+            v-for="restaurant in restaurants.slice(5, 10)"
+              class="ma-3"
+              width="264px"
             >
-              Explore
-            </v-btn>
+            <v-img
+              :src="restaurant.profile_picture"
+              height="200px"
+            ></v-img>
 
-            <v-spacer></v-spacer>
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
 
-            <v-btn
-              icon
-              @click="show5 = !show5"
+            <v-card-text>
+            
+                <v-row justify="space-around">
+                  <div>
+                    <v-btn 
+                    v-bind:class="categories[restaurant.category]"
+                    >
+                    {{ restaurant.category }}
+                    </v-btn>
+                  </div>
+                </v-row>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="reserve(restaurant._id)"
+              >
+                Commander
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                @click="show1 = !show1"
+              >
+                <v-icon>{{ show1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <div v-show="show1">
+                <v-divider></v-divider>
+                <v-card-title>Horraires d'ouvertures</v-card-title>
+                <v-card-text>
+                  <v-chip-group
+                    v-model="selection"
+                    active-class="deep-purple accent-4 white--text"
+                    column
+                    >
+                      <div class="open-time">Tous les jours :</div>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
+                  </v-chip-group>
+                </v-card-text>
+              </div>
+            </v-expand-transition>
+          </v-card>
+        </div>
+      </v-layout>
+    </v-flex>
+<!-- ====================================================================
+BURGER VIEW
+=========================================================================
+-->
+
+    <v-flex d-flex>
+      <v-layout wrap class="layout">
+        <div class="card-component">
+          <v-card v-show="!showtest"
+            v-for="restaurant in restaurants.slice(1, 2)"
+              class="ma-3"
+              width="264px"
             >
-              <v-icon>{{ show5 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
+            <v-img
+              :src="restaurant.profile_picture"
+              height="200px"
+            ></v-img>
 
-          <v-expand-transition>
-            <div v-show="show5">
-              <v-divider></v-divider>
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
 
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
+            <v-card-text>
+            
+                <v-row justify="space-around">
+                  <div>
+                    <v-btn
+                    v-bind:class="categories[restaurant.category]"
+                    >
+                    {{ restaurant.category }}
+                    </v-btn>
+                  </div>
+                </v-row>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="reserve(restaurant._id)"
+              >
+                Commander
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                @click="show = !show"
+              >
+                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <div v-show="show">
+                <v-divider></v-divider>
+                <v-card-title>Horraires d'ouvertures</v-card-title>
+                <v-card-text>
+                  <v-chip-group
+                    v-model="selection"
+                    active-class="deep-purple accent-4 white--text"
+                    column
+                    >
+                      <div class="open-time">Tous les jours :</div>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
+                  </v-chip-group>
+                </v-card-text>
+              </div>
+            </v-expand-transition>
+          </v-card>
+        </div>
+      </v-layout>
+    </v-flex>
+    <v-divider v-show="!showtest" ></v-divider>
+<!-- ====================================================================
+FAST FOOD
+=========================================================================
+-->
 
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="salade-bar.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Salad Bar
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
+    <v-flex d-flex>
+      <v-layout wrap class="layout">
+        <div class="card-component">
+          <v-card v-show="!showfast"
+            v-for="restaurant in restaurants.slice(0, 1)"
+              class="ma-3"
+              width="264px"
             >
-              Explore
-            </v-btn>
+            <v-img
+              :src="restaurant.profile_picture"
+              height="200px"
+            ></v-img>
 
-            <v-spacer></v-spacer>
+            <v-card-title>{{ restaurant.name_restaurant }}</v-card-title>
 
-            <v-btn
-              icon
-              @click="show6 = !show6"
-            >
-              <v-icon>{{ show6 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show6">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="supermarche.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Supermarché
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show7 = !show7"
-            >
-              <v-icon>{{ show7 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show7">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="sushi.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Asiakéo
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show8 = !show8"
-            >
-              <v-icon>{{ show8 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show8">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-flex>
-
-      <v-flex md4>
-        <v-card
-          class="ma-3"
-          max-width="344"
-          >
-          <v-img
-          src="vegan.jpg"
-          height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Chez Vegis
-          </v-card-title>
-
-          <v-card-subtitle>
-            1,000 miles of wonder
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="orange lighten-2"
-              text
-            >
-              Explore
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              icon
-              @click="show9 = !show9"
-            >
-              <v-icon>{{ show9 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show9">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-       </v-flex>       
-    </v-layout>
-  </v-flex>
-
+            <v-card-text>
+            
+                <v-row justify="space-around">
+                  <div>
+                    <v-btn
+                    v-bind:class="categories[restaurant.category]"
+                    >
+                    {{ restaurant.category }}
+                    </v-btn>
+                  </div>
+                </v-row>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="reserve(restaurant._id)"
+              >
+                Commander
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                @click="show = !show"
+              >
+                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <div v-show="show">
+                <v-divider></v-divider>
+                <v-card-title>Horraires d'ouvertures</v-card-title>
+                <v-card-text>
+                  <v-chip-group
+                    v-model="selection"
+                    active-class="deep-purple accent-4 white--text"
+                    column
+                    >
+                      <div class="open-time">Tous les jours :</div>
+                      <div class="open-hours">
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.start }}</v-chip>
+                        <v-chip v-if="restaurant.schedule !== undefined">{{ restaurant.schedule.end }}</v-chip>
+                      </div>
+                  </v-chip-group>
+                </v-card-text>
+              </div>
+            </v-expand-transition>
+          </v-card>
+        </div>
+      </v-layout>
+    </v-flex>
+    <v-divider v-show="!showfast" ></v-divider>
 </template>
 
-
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
-  export default defineComponent ({
-    name: 'AboutView',
-    data: () => ({
-      show: false,
-      show1: false, 
-      show2: false, 
-      show3: false, 
-      show4: false,
-      show5: false,
-      show6: false, 
-      show7: false, 
-      show8: false, 
-      show9: false,
-      loading: false,
-      selection: 1,
-    }),
-    methods: {
-      reserve () {
-        this.loading = true
+import RestaurantService from "../../../global/services/RestaurantService";
 
+export default defineComponent({
+    name: 'Restaurant',
+    data: () => ({
+        show: false,
+        show1: false,
+        showtest: true,
+        showfast: true,
+        showburger: false,
+        restaurants: [],
+        error: null,
+        loading: false,
+        selection: 1,
+        categories: {
+          "burger": 'burger',
+          "asia": 'asia', 
+          "fast food": 'fast-food',
+          "course": 'course',
+          "vegan": 'vegan', 
+          "pizza": 'pizza',
+          "indien": 'indien', 
+          "pates": 'pates',
+        }
+        
+      }),
+    methods: {
+      reserve (idRestaurant) {
+        this.loading = true
         setTimeout(() => (this.loading = false), 2000)
+
+        //redirection to the restaurant page by id
+        this.$router.push({ name: 'Restaurant', params: { id: idRestaurant } })
+      },
+      select () {
+        this.loading = true
+        setTimeout(() => (this.loading = false), 2000)
+
+        //redirection to the restaurant page by id
+        this.$router.push({ name: 'Category'})
       },
     },
-
-  })
+    async mounted() {
+        try {
+            this.restaurants = (await RestaurantService.getAllRestaurants()).data.restaurants;
+            console.log(this.restaurants);
+        } catch (err) {
+            this.error = err.message;
+        }
+    },
+});
 </script>
 
 <style>
+  .open-time {
+      margin-right: 10px;
+      margin-top: 10px;
+      max-height: 50%;
+  }
+  .v-card {
+    max-height: auto;
+    width: auto;
+  }
   .popular, .chinois{
    margin-top: 10px;
    margin-bottom: 10px;
    margin-left: 10px;
   }
   .fast-food {
-        color: white !important;
-        background-color: green;
-        margin-left: 5px;
-        margin-top: 5px;
-        max-height: 50%;
-    }
+    color: white !important;
+    background-color: green;
+    margin-left: 5px;
+    margin-top: 5px;
+    max-height: 50%;
+  }
+  .nofast-food {
+    color: green !important;
+    background-color: green;
+    margin-left: 5px;
+    margin-top: 5px;
+    max-height: 50%;
+  }
     .burger {
         color: white !important;
+        background-color: orange;
+        max-height: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .noburger {
+        color: orange !important;
         background-color: orange;
         max-height: 50%;
         margin-left: 5px;
@@ -634,6 +480,20 @@ import { defineComponent } from 'vue';
         margin-left: 5px;
         margin-top: 5px;
     }
+    .indien {
+        color: white !important;
+        background-color: rgb(0, 0, 0);
+        max-height: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .pates {
+        color: white !important;
+        background-color: brown;
+        max-height: 50%;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
     .categories {
       margin-top: 10px;
       margin-bottom: 10px;
@@ -644,4 +504,14 @@ import { defineComponent } from 'vue';
     .stars {
       margin-left: 5px;
     }
+    .card-component {
+      display: flex;
+    }
+    .open-hours {
+      justify-content: center;
+      margin-right: 10px;
+      margin-top: 10px;
+      max-height: 50%;
+    }
+    
 </style>

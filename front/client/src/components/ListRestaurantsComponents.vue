@@ -9,7 +9,8 @@
     <v-layout>
       <v-flex>
         <div class="categories">
-          <v-btn 
+          <v-btn
+              @click="select()"
               class="burger"
               >
               Burger
@@ -234,6 +235,13 @@ export default defineComponent({
 
         //redirection to the restaurant page by id
         this.$router.push({ name: 'Restaurant', params: { id: idRestaurant } })
+      },
+      select () {
+        this.loading = true
+        setTimeout(() => (this.loading = false), 2000)
+
+        //redirection to the restaurant page by id
+        this.$router.push({ name: 'Category'})
       },
     },
     async mounted() {
