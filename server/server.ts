@@ -5,7 +5,10 @@ require("dotenv").config();
 
 const app = express()
 const corsOptions = {
-  origin: 'http://localhost:8080',
+  client: 'http://client.foodcesi.fr/',
+  admin: 'http://admin.foodcesi.fr/',
+  restorer: 'http://restorer.foodcesi.fr/',
+  deliverer: 'http://deliverer.foodcesi.fr/',
   optionsSuccessStatus: 200 // For legacy browser support
 }
 
@@ -16,7 +19,7 @@ app.get('/test', (req, res)=> {
 })
 require('./routes.ts')(app)
 
-mongoose.connect('mongodb://localhost:27017/FoodCesi',
+mongoose.connect('mongodb://mongo:27017/FoodCesi',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true

@@ -41,6 +41,16 @@ services:
     volumes:
       - ../front/deliverer:/var/www/deliverer
       - ../front/global:/var/www/global
+  admin-vue:
+    image: node:16
+    labels:
+      traefik.frontend.rule: "Host: admin.foodcesi.fr;"
+      traefik.port: "8080"
+    command: npm run serve
+    working_dir: /var/www/admin
+    volumes:
+      - ../front/admin:/var/www/admin
+      - ../front/global:/var/www/global
   traefik:
     image: traefik:1.6@sha256:eabb39016917bd43e738fb8bada87be076d4553b5617037922b187c0a656f4a4
     restart: always
