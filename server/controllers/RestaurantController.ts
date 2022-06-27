@@ -19,6 +19,23 @@ module.exports = {
                 }
         });
     },
+    //get restaurants by category
+    async getRestaurantsByCategory(req, res) {
+        userModelRestaurants
+            .find({role: 'restorer', status: 'active', category: req.params.category})
+            .select('username category description schedule adress name_restaurant profile_picture')
+            .then(function(restaurants) {
+                try {
+                    res.send({
+                        restaurants: restaurants
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        error: 'Impossible to get the restaurants.'
+                    })
+                }
+        });
+    },
     //get restaurant by Id
     async getRestaurant(req, res) {
         if(mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -50,5 +67,22 @@ module.exports = {
                 error: 'Restaurant not found.'
             })
         }
-    }
+    },
+    //get all categories
+    async getAllCategories(req, res) {
+        userModelRestaurants
+            .find({role: 'restorer', status: 'active'})
+            .select('category')
+            .then(function(restaurants) {
+                try {
+                    res.send({
+                        restaurants: restaurants
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        error: 'Impossible to get the restaurants.'
+                    })
+                }
+        });
+    },
 }
