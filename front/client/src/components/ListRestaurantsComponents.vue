@@ -8,10 +8,11 @@
         Exemple ci dessous d'une boucle for pour chaque restaurant, tu peux t'inspirer de ça pour rajouter des élements -->
     <v-layout>
       <v-flex>
-        <div class="categories" v-for="category in categories">
-          <v-btn v-on:Click="getRestaurantsBycategory(category.category)"
-              class={{category.category}}
-              >
+        <div class="categories">
+          <v-btn v-on:Click="getAll()">All
+            </v-btn>
+          <v-btn v-for="category in categories" v-on:Click="getRestaurantsBycategory(category.category)"
+              class="vegan">
               {{category.category}}
             </v-btn>
         </div>
@@ -190,18 +191,23 @@ export default defineComponent({
       },
       getRestaurantsBycategory(category){
         this.category = category
-        //console.log(category)
+        console.log(category)
         RestaurantService.getRestaurantsByCategory(category).then((res) => {
-          console.log(res.data.restaurants)
           this.restaurants = res.data.restaurants
         })
       },
-        //this.restaurants = sorted.data.restaurants;
+      getAll(){
+        RestaurantService.getAllRestaurants().then((res) => {
+          this.restaurants = res.data.restaurants
+        })
+      }
     },
     async mounted() {
         try {
             this.restaurants = (await RestaurantService.getAllRestaurants()).data.restaurants;
             this.categories = (await RestaurantService.getAllCategories()).data.restaurants;
+            this.categories = this.categories.filter((set => f => !set.has(f.category) && set.add(f.category))(new Set));
+
             console.log(this.restaurants);
             console.log(this.categories);
         } catch (err) {
