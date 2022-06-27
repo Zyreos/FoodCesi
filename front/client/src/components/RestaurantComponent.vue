@@ -1,3 +1,4 @@
+
 <template>
     <div class="error" v-if="error">
         {{error}}
@@ -9,53 +10,83 @@
         <br/>
         <div id="container-products">
             <h2>Products</h2>
-            <div class="article" v-for="article in articles" style="border: 2px solid black; margin: 20px;">
-                <!-- Non Menu -->
-                <div v-if="!article.products.length">
-                    <p>{{article.name}}</p>
-                    <p>{{article.category}}</p>
-                    <p>{{article.price}} $</p>
-                    <p>{{article.description}}</p>
-                    <!-- <img src={{article.picture}}/>  -->
-                    <p>dispo : {{article.available_quantity}}</p>
-                    <v-btn block color="secondary" @click="AddArticleToBasket(article)">Add</v-btn>
-                </div>
-                <!-- Menu -->
-                <div v-else-if="article.products.length">
-                    <p>{{article.name}}</p>
-                    <p>{{article.category}}</p>
-                    <p>{{article.price}} $</p>
-                    <p>{{article.description}}</p>
-                    <p>dispo : {{article.available_quantity}}</p>
-                    <v-btn block color="secondary" @click="AddArticleToBasket(article)">Add</v-btn>
-                    <!-- Articles du menu -->
-                    <div v-for="productId in article.products" style="border: 2px solid black;" :set="tmpArticle = getArticleById(productId)">
+             <div class="flex-wrap d-flex"> 
+                <v-card :loading="loading" class="mx-auto my-12"  width="374" v-for="article in articles">
+                   <div v-if="!article.products.length">
+                    <v-img src="https://tn.fishki.net/26/upload/post/2020/07/15/3369927/57b132579713bba6c722a6b8f7585278.jpg"></v-img>
+                    <v-card-title>{{article.name}}</v-card-title>
+                     <v-card-subtitle>{{article.price}} $</v-card-subtitle>
+                        <p class="ma-2">{{article.category}}</p>
+                        <p class="ma-2">{{article.description}}</p>
+                        <p class="ma-2">dispo: {{article.available_quantity}}</p>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-2" color="secondary" @click="AddArticleToBasket(article)"><v-icon >mdi-basket</v-icon></v-btn>
+                        </v-card-actions> 
+                    </div>
+                   <div v-else-if="article.products.length">
+                   <v-img src="https://kartinkin.net/uploads/posts/2021-03/1617150564_54-p-burger-krasivo-55.jpg"></v-img>
+                    <v-card-title>{{article.name}}</v-card-title>
+                     <v-card-subtitle>{{article.price}} $</v-card-subtitle>
+                        <p class="ma-2">{{article.category}}</p>
+                        <p class="ma-2">{{article.description}}</p>
+                        <p class="ma-2">dispo: {{article.available_quantity}}</p>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click="show = !show">
+                        <v-icon color="secondary">{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                         </v-btn>
+                            <v-btn class="ma-2" color="secondary" @click="AddArticleToBasket(article)"><v-icon >mdi-basket</v-icon></v-btn>
+                        </v-card-actions>
+                        <v-expand-transition>
+                    <div v-show="show">
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <div v-for="productId in article.products" style="border: 1px solid #00FA9A ;" :set="tmpArticle = getArticleById(productId)">
                         <p>{{tmpArticle.name}}</p>
                         <p>{{tmpArticle.category}}</p>
-                        <p>{{tmpArticle.price}} $</p>
                         <p>{{tmpArticle.description}}</p>
-                        <p>dispo : {{tmpArticle.available_quantity}}</p>
+                        
                     </div>
-                </div>
+                    <br/>
+                </v-card-text> 
             </div>
+                </v-expand-transition>
+            </div>     
+        </v-card>
+        </div>
+           
         </div>
     </div>
     <br />
+    
     <div id="container-basket">
         <h2>Basket</h2>
         <div id="list-articles" v-if="basket.articles.length > 0">
-            <div class="basket-articles" v-for="article in basket.articles">
-                <p>{{article.nbArticles}}</p>
-                <p>{{article.price}}</p>
-                <p>{{article.name}}</p>
-                <v-btn block color="secondary" @click="RemoveQuantityArticle(article, 1)">Remove</v-btn>
-            </div>
+            <div  class="flex-wrap d-flex" >
+        <v-card :loading="loading" class="mx-auto my-12"  width="250" v-for="article in basket.articles">
+        <v-img src="https://tn.fishki.net/26/upload/post/2020/07/15/3369927/57b132579713bba6c722a6b8f7585278.jpg"></v-img>
+                    <v-card-title>{{article.name}}</v-card-title>
+                     <v-card-subtitle>{{article.price}} $</v-card-subtitle>
+                        <v-card-actions>
+                            <v-btn class="ma-2" color="secondary" @click="AddQuantityArticle(article)"><v-icon>mdi-plus</v-icon></v-btn>
+                            <v-spacer></v-spacer>
+                            {{article.nbArticles}}
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-2" color="secondary" @click="RemoveQuantityArticle(article, 1)"><v-icon>mdi-minus</v-icon></v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-2" color="secondary" @click="RemoveArticle(article, 1)"><v-icon>mdi-close</v-icon></v-btn>
+                        </v-card-actions> 
+        
+          </v-card>
+     </div>
         </div>
         <div v-else>
             <p class="error">Basket is empty</p>
-        </div>
-    </div>
+        </div> </div>
     <br/>
+
+   
     <div id="container-payment" v-if="basket.articles.length > 0">
         <h2>Payment</h2>
         <v-row>
@@ -64,7 +95,7 @@
                     label="Tip"
                     prefix="$"
                     v-model="basket.tip"
-                ></v-text-field>
+                ></v-text-field> 
             </v-col>
         </v-row>
         <p>Total price: {{ basket.total_price }} $</p>
@@ -79,6 +110,7 @@ import OrderService from "../../../global/services/OrderService";
 export default {
     data () {
         return {
+            show: false,
             restaurant: null,
             articles: null,
             error: null,
@@ -163,7 +195,6 @@ export default {
     },
 };
 </script>
-
 <style scoped>
 .error {
     color: red;
