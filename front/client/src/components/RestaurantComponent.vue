@@ -179,7 +179,11 @@ export default {
             const response = OrderService.newOrder({
                 basket: this.basket
             });
-            console.log(response);
+            response.then((res) => {
+                if(res.status === 200) {
+                    this.$router.push({name: 'home'}); 
+                }
+            })
         }
     },
     async mounted() {

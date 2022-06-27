@@ -21,13 +21,19 @@
             <div class="orders" v-for="order in getProcessedOrders()" style="border: 2px solid green;">
                 <p><b>Address :</b> {{ order.address }}</p>
                 <p><b>Status :</b> {{ order.state }}</p>
+                <p><b>Order paid at</b> {{ order.time }}</p>
                 <p><b>Estimated time arrival :</b> {{ order.eta }} minute(s)</p>
                 <p><b>Price to pay :</b> {{ getPriceToPay(order) }}$</p>
                 <p><b>Fee application :</b> {{ order.price.fee_application }}$</p>
                 <p><b>Fee deliverer :</b> {{ order.price.fee_deliverer }}$</p>
                 <p><b>Tip :</b> {{ order.price.tip }}$</p>
                 <p><b>Sum product prices :</b>  {{ order.price.total_price }}$</p>
-                <p><b>Order content :</b> {{ order.content }}</p>
+                <div>
+                    <p><b>Order content :</b></p>
+                    <ul>
+                        <li v-for="text in order.content">{{text}}</li>
+                    </ul>
+                </div>
             </div>
             <br/>
             <h3>completed orders</h3>
