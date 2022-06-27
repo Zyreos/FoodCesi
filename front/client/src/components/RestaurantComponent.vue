@@ -69,7 +69,7 @@
                     <v-card-title>{{article.name}}</v-card-title>
                      <v-card-subtitle>{{article.price}} $</v-card-subtitle>
                         <v-card-actions>
-                            <v-btn class="ma-2" color="secondary" @click="AddQuantityArticle(article)"><v-icon>mdi-plus</v-icon></v-btn>
+                            <v-btn class="ma-2" color="secondary" @click="AddQuantityArticle(article, 1)"><v-icon>mdi-plus</v-icon></v-btn>
                             <v-spacer></v-spacer>
                             {{article.nbArticles}}
                             <v-spacer></v-spacer>
@@ -154,7 +154,7 @@ export default {
             });
         },
         AddQuantityArticle(article, nbArticlesAdd) {
-            const index = this.basket.articles.findIndex(x => x.idArticle === article._id);
+            const index = this.basket.articles.findIndex(x => x.idArticle === article.idArticle);
             this.basket.articles[index].nbArticles = this.basket.articles[index].nbArticles + nbArticlesAdd;
             //if quantity > quantity available
             if(this.basket.articles[index].nbArticles > article.available_quantity) {
