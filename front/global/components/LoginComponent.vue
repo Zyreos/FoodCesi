@@ -24,7 +24,7 @@
         </v-row>
 
         <div class="error" v-html="error" />
-        <v-btn class="mr-4" type="submit" @click="login">
+        <v-btn class="mr-4" @click="login">
           submit
         </v-btn>
       </v-container>
