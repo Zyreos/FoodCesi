@@ -19,7 +19,10 @@ module.exports = (app) => {
     RestaurantController.getRestaurant)
 
   app.post('/create_order',
-    OrderController.createOrder)
+    OrderController.createOrderPost)
+
+  app.post('/newOrder',
+  OrderController.createOrder)
 
   app.get('/orders/:id',
   OrderController.getOrdersByUser)
