@@ -150,11 +150,15 @@ export default {
                 nbArticles: 1,
                 idArticle: article._id,
                 price: article.price,
-                name: article.name
+                name: article.name,
+                available_quantity: article.available_quantity
             });
         },
         AddQuantityArticle(article, nbArticlesAdd) {
-            const index = this.basket.articles.findIndex(x => x.idArticle === article.idArticle);
+            console.log(this.basket.articles);
+            console.log(article);
+            const index = this.basket.articles.findIndex(x => (x.idArticle === article._id) || (x.idArticle === article.idArticle));
+            console.log(index);
             this.basket.articles[index].nbArticles = this.basket.articles[index].nbArticles + nbArticlesAdd;
             //if quantity > quantity available
             if(this.basket.articles[index].nbArticles > article.available_quantity) {
