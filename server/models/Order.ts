@@ -2,24 +2,39 @@ let mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
     {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+        users: {
+            user_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            restorer_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            deliverer_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }
         },
         articles: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Article"
+            article_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Article"
+            },
+            quantity: {
+                type: Number,
+                required: false 
+            }
         }],
         time: {
-            type: String,
+            type: Date,
             required: false
         },
         eta: {
-            type: String,
+            type: Number,
             required: false
         },
         address: {
-            //type: [UserSchema.address],
             type: String,
             required: false
         },
@@ -28,14 +43,27 @@ const OrderSchema = new mongoose.Schema(
             default: "Confirmation",
             required: false
         },
-        content: {
-            type: Map,
-            of: String,
+        content: [{
+            type: String,
             required: false
-        },
+        }],
         price: {
-            type: Number,
-            required: false
+            fee_deliverer: {
+                type: Number,
+                required: false
+            },
+            fee_application: {
+                type: Number,
+                required: false
+            },
+            tip: {
+                type: Number,
+                required: false
+            },
+            total_price: {
+                type: Number,
+                required: false
+            },
         }
     },
     { timestamps: true },
