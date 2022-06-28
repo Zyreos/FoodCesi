@@ -19,7 +19,7 @@ module.exports = (app) => {
   app.get('/restaurants',
     RestaurantController.getAllRestaurants)
 
-  app.get('/restaurants/:category',
+  app.get('/restaurants/category/:category',
     RestaurantController.getRestaurantsByCategory)
   
   app.get('/categories',
