@@ -22,6 +22,11 @@
                     <v-text-field class="textfield" v-model="email" required readonly>{{ $store.state.user.email }}
                     </v-text-field>
                 </v-col>
+                <p class="title-cat">Address :</p>
+                <v-col cols="12" md="4">
+                    <v-text-field class="textfield" v-model="address" required readonly>{{ $store.state.user.address }}
+                    </v-text-field>
+                </v-col>
                 <v-col cols="12" md="4">
                     <p class="title-age">Age :</p>
                     <v-text-field class="textage" v-model="age" style="width: 80px" readonly>{{ $store.state.user.age }}
