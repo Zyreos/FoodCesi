@@ -82,4 +82,40 @@ module.exports = class OrderConrtoller {
         }
     }
 
+    static async updateOrder(req, res) {
+        const states = ["Confirmation", "Preparation", "Delivery", "Delivered"];
+
+        const order = Order.findById(req.params.id);
+        
+        if(order) {
+            states.forEach(state => {
+                if(state == order.state && state != "Delivered") {
+                    let index = states.indexOf(state) + 1
+                    let nextState = states[index]
+                    Order.findByIdAndUpdate(req.params.id, {state: nextState}, { useFindAndModify: false})
+                    .then(data => {
+                        if(!data){
+                            res.status(404).send({ message : `Cannot Update order with ${req.params.id}. Maybe order not found!`})
+                        }else{
+                            res.send(data)
+                        }
+                    })
+                    .catch(err =>{
+                        res.status(500).send({ message : "Error Update user information"})
+                    })
+                }
+                //res.send(state + "<=>" + order.state)
+            });
+        } else {
+            res.status(404).send({ message : "Error sdmoivhsg user information"})   
+        }
+    }
+
+    static async CancelOrder(req, res) {
+        const order = Order.findById(req.params.id);
+
+        Order.findByIdAndUpdate(req.params.id, {state: "Cancelled"}, { useFindAndModify: false})
+
+    }
+
 }

@@ -25,6 +25,9 @@ module.exports = (app) => {
   app.post('/create_order',
     OrderController.createOrderPost)
 
+  app.put('/update_order/:id',
+  OrderController.CancelOrder)
+
   app.post('/newOrder',
   OrderController.createOrder)
 
