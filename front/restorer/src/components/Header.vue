@@ -30,6 +30,10 @@
             <v-icon>mdi-help-box</v-icon>
             <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
+        <v-list-item :to="'/create_article'" link v-if="$store.state.isUserLoggedIn">
+            <v-icon>mdi-help-box</v-icon>
+            <v-list-item-title>Create</v-list-item-title>
+        </v-list-item>
         <page-disconnect />
       </v-list>
     </v-navigation-drawer>
