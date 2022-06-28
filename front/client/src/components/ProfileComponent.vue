@@ -91,9 +91,9 @@
             <h3>Completed Order</h3>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-btn class="expand" icon @click="show = !show">
+            <v-btn class="expand" icon @click="show1 = !show1">
               <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
+                show1 ? "mdi-chevron-up" : "mdi-chevron-down"
               }}</v-icon>
             </v-btn>
           </v-col>
