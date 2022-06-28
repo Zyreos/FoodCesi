@@ -23,8 +23,7 @@ const ArticleSchema = new mongoose.Schema(
             required: false
         },
         picture: {
-            data: Buffer,
-            contentType: String,
+            type: String,
             required: false
         },
         products: [{

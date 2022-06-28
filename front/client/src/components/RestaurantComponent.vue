@@ -13,7 +13,7 @@
              <div class="flex-wrap d-flex"> 
                 <v-card :loading="loading" class="mx-auto my-12"  width="374" v-for="article in articles">
                    <div v-if="!article.products.length">
-                    <v-img src="https://tn.fishki.net/26/upload/post/2020/07/15/3369927/57b132579713bba6c722a6b8f7585278.jpg"></v-img>
+                    <v-img :src=article.picture></v-img>
                     <v-card-title>{{article.name}}</v-card-title>
                      <v-card-subtitle>{{article.price}} $</v-card-subtitle>
                         <p class="ma-2">{{article.category}}</p>
@@ -25,7 +25,7 @@
                         </v-card-actions> 
                     </div>
                    <div v-else-if="article.products.length">
-                   <v-img src="https://kartinkin.net/uploads/posts/2021-03/1617150564_54-p-burger-krasivo-55.jpg"></v-img>
+                   <v-img :src=article.picture></v-img>
                     <v-card-title>{{article.name}}</v-card-title>
                      <v-card-subtitle>{{article.price}} $</v-card-subtitle>
                         <p class="ma-2">{{article.category}}</p>
@@ -41,8 +41,8 @@
                         <v-expand-transition>
                     <div v-show="show">
                     <v-divider></v-divider>
-                    <v-card-text>
-                        <div v-for="productId in article.products" style="border: 1px solid #00FA9A ;" :set="tmpArticle = getArticleById(productId)">
+                    <v-card-text >
+                        <div class="my-4"  v-for="productId in article.products" :set="tmpArticle = getArticleById(productId)">
                         <p>{{tmpArticle.name}}</p>
                         <p>{{tmpArticle.category}}</p>
                         <p>{{tmpArticle.description}}</p>
@@ -64,7 +64,7 @@
         <div id="list-articles" v-if="basket.articles.length > 0">
             <div  class="flex-wrap d-flex" >
         <v-card :loading="loading" class="mx-auto my-12"  width="250" v-for="article in basket.articles">
-        <v-img src="https://tn.fishki.net/26/upload/post/2020/07/15/3369927/57b132579713bba6c722a6b8f7585278.jpg"></v-img>
+        <v-img :src=article.picture></v-img>
                     <v-card-title>{{article.name}}</v-card-title>
                      <v-card-subtitle>{{article.price}} $</v-card-subtitle>
                         <v-card-actions>
@@ -161,6 +161,7 @@ export default {
             if(this.basket.articles[index].quantity > article.available_quantity) {
                 this.basket.articles[index].quantity = article.available_quantity;
             }
+            this.setTotalPrice();
         },
         RemoveQuantityArticle(article, nbArticlesAdd) {
             const index = this.basket.articles.findIndex(x => x.idArticle === article.idArticle);
