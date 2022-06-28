@@ -94,6 +94,10 @@ const UserSchema = new mongoose.Schema(
         type: String,
         required: false
       },
+      name_restaurant: {
+        type: String,
+        required: false
+      },
       schedule: {
         start: {
           type: String,

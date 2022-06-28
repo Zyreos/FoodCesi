@@ -7,4 +7,10 @@ export default {
     getAllRestaurants() {
         return Api().get("restaurants")
     },
+    getRestaurantsByCategory(category) {
+        return Api().get("restaurants/"+ category)
+    },
+    getAllCategories() {
+        return Api().get("categories")
+    },
 };
