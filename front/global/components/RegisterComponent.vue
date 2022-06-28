@@ -5,29 +5,15 @@
         <v-row>
 
           <v-col cols="12" md="4">
-            <v-text-field
-              v-model="username"
-              :counter="32"
-              label="Username"
-              required
-            ></v-text-field>
+            <v-text-field v-model="username" :counter="32" label="Username" required></v-text-field>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-text-field
-              v-model="email"
-              label="E-mail"
-              required
-            ></v-text-field>
+            <v-text-field v-model="email" label="E-mail" required></v-text-field>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-text-field
-              v-model="password"
-              label="Password"
-              type="password"
-              required
-            ></v-text-field>
+            <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
           </v-col>
 
         </v-row>
@@ -35,16 +21,22 @@
         <v-row>
           <v-col cols="12" sm="6">
             <p>Age</p>
-            <v-text-field
-                    v-model="age"
-                    class="mt-0 pt-0"
-                    type="number"
-                    style="width: 80px"
-              ></v-text-field>
+            <v-text-field v-model="age" class="mt-0 pt-0" type="number" style="width: 80px"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6">
+            <v-container fluid>
+              <v-radio-group v-model="role" inline>
+                <v-radio label="Client" value="client"></v-radio>
+                <v-radio label="Deliverer" value="deliverer"></v-radio>
+                <v-radio label="Restorer" value="restorer"></v-radio>
+              </v-radio-group>
+            </v-container>
+
           </v-col>
         </v-row>
         <div class="error" v-html="error" />
-        <v-btn class="mr-4" type="submit" @click="register">
+        <v-btn class="mr-4" @click="register">
           submit
         </v-btn>
       </v-container>
@@ -54,7 +46,7 @@
 </template>
 
 <script>
-import AuthenticationService from "../../../global/services/AuthenticationService";
+import AuthenticationService from "../services/AuthenticationService";
 export default {
   data() {
     return {
@@ -62,6 +54,7 @@ export default {
       age: 18,
       email: "",
       password: "",
+      role: "client",
       error: null,
     };
   },
@@ -73,6 +66,7 @@ export default {
           age: this.age,
           email: this.email,
           password: this.password,
+          role: this.role
         });
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
@@ -83,14 +77,13 @@ export default {
       } catch (error) {
         this.error = error.response.data.error
       }
-      
     },
   },
 };
 </script>
 
 <style scoped>
-  .error {
-    color: red;
-  }
+.error {
+  color: red;
+}
 </style>

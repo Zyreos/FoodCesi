@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PageRegister from "@/components/RegisterComponent.vue";
+import PageRegister from "../../../global/components/RegisterComponent.vue";
 
 export default {
   components: {
