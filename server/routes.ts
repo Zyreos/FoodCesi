@@ -50,5 +50,8 @@ module.exports = (app) => {
     UserController.deleteUser)
   
   app.put('/users/:id',
-  UserController.updateUser)
+    UserController.updateUser)
+
+  app.put('/changeOrderState/:id_order',
+    OrderController.changeOrderState)
 }

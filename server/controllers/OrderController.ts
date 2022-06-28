@@ -82,4 +82,24 @@ module.exports = class OrderConrtoller {
         }
     }
 
+    static async changeOrderState(req, res) {
+        if(!req.body){
+            return res
+                .status(400)
+                .send({ message : "Data to update can not be empty"})
+        }
+
+        const idOrder = req.params.id_order;
+        Order.findByIdAndUpdate(idOrder, req.body, { useFindAndModify: false})
+            .then(data => {
+                if(!data){
+                    res.status(404).send({ message : `Cannot Update order with ${id}. Maybe order not found!`})
+                }else{
+                    res.send(data)
+                }
+            })
+            .catch(err =>{
+                res.status(500).send({ message : "Error Update user information"})
+            })
+    }
 }

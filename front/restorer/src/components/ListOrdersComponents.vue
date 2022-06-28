@@ -17,13 +17,13 @@
                 <v-icon >{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn>
+            <v-btn @click="cancelOrder(order)">
                 <v-icon color="#DC143C">
                     mdi-close
                 </v-icon>
             </v-btn>
             
-            <v-btn >
+            <v-btn @click="confirmOrder(order)">
                 <v-icon color="secondary">
                     mdi-check
                 </v-icon>
@@ -54,7 +54,7 @@
             </v-btn>
             <v-spacer></v-spacer>
             
-            <v-btn >
+            <v-btn @click="prepareOrder(order)">
                 <v-icon color="secondary">
                     mdi-check
                 </v-icon>
@@ -90,6 +90,33 @@
             getOrders(status) {
                 const completedOrders = this.orders.filter(tmpOrder => tmpOrder.state === status);
                 return completedOrders;
+            },
+            async cancelOrder(order) {
+                const response = await OrderService.changeOrderState(order._id, {
+                    state: 'Cancelled'
+                });
+                if(response.status == 200){
+                    //reload page
+                    this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                } 
+            },
+            async confirmOrder(order) {
+                const response = await OrderService.changeOrderState(order._id, {
+                    state: 'Preparation'
+                });
+                if(response.status == 200){
+                    //reload page
+                    this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                } 
+            },
+            async prepareOrder(order) {
+                const response = await OrderService.changeOrderState(order._id, {
+                    state: 'Delivering'
+                });
+                if(response.status == 200){
+                    //reload page
+                    this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                } 
             }
         },
         async mounted() {

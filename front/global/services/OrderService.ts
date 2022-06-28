@@ -7,4 +7,7 @@ export default {
   getOrdersUser(idUser) {
     return Api().get(`orders/${idUser}`)
   },
+  changeOrderState(idOrder, credentials: any) {
+    return Api().put(`changeOrderState/${idOrder}`, credentials);
+  }
 };
