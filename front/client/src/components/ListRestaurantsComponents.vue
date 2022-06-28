@@ -9,10 +9,12 @@
     <v-layout>
       <v-flex>
         <div class="categories">
-          <v-btn v-on:Click="getAll()">All
+          <v-btn v-on:Click="getAll()"
+          @click="showtest = !showtest">All
             </v-btn>
           <v-btn v-for="category in categories" v-on:Click="getRestaurantsBycategory(category.category)"
               v-bind:class="swancate[category.category]"
+              @click="showtest =  showtest"
               >
               {{category.category}}
             </v-btn>
@@ -21,7 +23,7 @@
     </v-layout> 
   
     <div class="popular">
-      <h3>Les plus populaires</h3>
+      <h3 v-show="!showtest">{{showtest ? '' : 'Les plus populaires' }}</h3>
     </div>
      <v-divider></v-divider>
 
@@ -94,7 +96,7 @@
     </v-flex>
   </div>
   <div class="chinois">
-      <h3>Nos Suggestions</h3>
+      <h3 v-show="showtest">{{showtest ? '' : 'Nos Suggestions' }}</h3>
   </div>
   <v-divider></v-divider>
   <v-flex d-flex>
@@ -175,6 +177,7 @@ export default defineComponent({
     data: () => ({
         show: false,
         show1: false,
+        showtest: true,
         restaurants: [],
         error: null,
         loading: false,
