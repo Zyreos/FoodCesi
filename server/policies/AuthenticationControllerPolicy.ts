@@ -15,7 +15,7 @@ module.exports = {
         address: Joi.object({
           street: Joi.string(),
           city: Joi.string(),
-          postal_code: Joi.number()
+          postal_code: Joi.string()
         }).optional(),
         notification: Joi.object({
           time: Joi.string(),

@@ -28,8 +28,9 @@
         </v-col>
         <p class="title-cat">Address :</p>
         <v-col cols="12" md="4">
-          <v-text-field class="textfield" v-model="address" required>
-          </v-text-field>
+          <v-text-field class="textfield" v-model="addressStreet" required></v-text-field>
+          <v-text-field class="textfield" v-model="addressCity" required></v-text-field>
+          <v-text-field class="textfield" v-model="addressPostalCode" required></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
           <p class="title-age">Age :</p>
@@ -138,7 +139,9 @@ export default defineComponent({
     show: false,
     show1: false,
     username: null,
-    address: null,
+    addressStreet: null,
+    addressCity: null,
+    addressPostalCode: null,
     email: null,
     age: null,
     id: null,
@@ -169,11 +172,16 @@ export default defineComponent({
 
     getDatabyID(id) {
       UserService.getUserByID(id).then((result) => {
+        
+        this.$store.dispatch('setUser', result.data)
+
         this.user = result.data;
         this.username = result.data.username;
         this.email = result.data.email;
         this.age = result.data.age;
-        this.address = result.data.address;
+        this.addressStreet = result.data.address.street;
+        this.addressCity = result.data.address.city;
+        this.addressPostalCode = result.data.address.postal_code;
       });
     },
 
@@ -182,7 +190,11 @@ export default defineComponent({
         id: id,
         username: this.username,
         email: this.email,
-        address: this.address,
+        address: {
+          street: this.addressStreet,
+          city: this.addressCity,
+          postal_code: this.addressPostalCode
+        },
         age: this.age,
       };
 
