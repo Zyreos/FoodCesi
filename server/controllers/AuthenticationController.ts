@@ -4,9 +4,9 @@ const config = require('../config/config.ts')
 
 const ONE_WEEK = 60 * 60 * 24 * 7;
 const jwtSignUser = (user) => {
-    return jwt.sign({user}, config.authentication.jwtSecret, {
+    return jwt.sign({ user }, config.authentication.jwtSecret, {
         expiresIn: ONE_WEEK
-    })  
+    })
 }
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
     },
     async login(req, res) {
         try {
-            const {email, password} = req.body
+            const { email, password } = req.body
             const user = await userModel.findOne({
                 email: email
             })
@@ -36,11 +36,11 @@ module.exports = {
                     error: 'The login information was incorrect'
                 })
             }
-            
+
             const isPasswordValid = await user.comparePassword(password);
             if (!isPasswordValid) {
                 return res.status(403).send({
-                  error: 'The login information was incorrect'
+                    error: 'The login information was incorrect'
                 })
             }
 
@@ -51,6 +51,25 @@ module.exports = {
             res.status(500).send({
                 error: 'An error has occured trying to log in'
             })
+        }
+    },
+
+    async requireAuth(req, res, next) {
+        const token = req.cookies.jwt;
+
+        // check json web token exists & is verified
+        if (token) {
+            jwt.verify(token, 'secret', (err, decodedToken) => {
+                if (err) {
+                    console.log(err.message);
+                    res.redirect('http://localhost:8080/login');
+                } else {
+                    console.log(decodedToken);
+                    next();
+                }
+            });
+        } else {
+            res.redirect('http://localhost:8080/login');
         }
     }
 }

@@ -5,10 +5,26 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express()
+
+const whitelist = ['http://localhost:8080', 'http://localhost:3000'];
 const corsOptions = {
-  origin: 'http://localhost:8080',
-  optionsSuccessStatus: 200, // For legacy browser support
+  credentials: true,
+  origin: true,
+  /*origin: (origin, callback) => {
+    if(whitelist.includes(origin))
+      return callback(null, true)
+
+      callback(new Error('Not allowed by CORS'));
+  }*/
 }
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 app.use(cors(corsOptions));
 app.use(express.json());
