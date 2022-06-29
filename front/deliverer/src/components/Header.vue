@@ -19,15 +19,15 @@
             <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
         <v-list-item :to="'/profile'" link v-if="$store.state.isUserLoggedIn">
-            <v-icon>mdi-help-box</v-icon>
+            <v-icon>mdi-account-circle</v-icon>
             <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
         <v-list-item :to="'/register'" link v-if="!$store.state.isUserLoggedIn">
-            <v-icon>mdi-help-box</v-icon>
+            <v-icon>mdi-account-plus</v-icon>
             <v-list-item-title>Register</v-list-item-title>
         </v-list-item>
         <v-list-item :to="'/login'" link v-if="!$store.state.isUserLoggedIn">
-            <v-icon>mdi-help-box</v-icon>
+            <v-icon>mdi-login</v-icon>
             <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
         <page-disconnect />
@@ -54,12 +54,8 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+      <v-btn icon :to="'/profile'" link v-if="$store.state.isUserLoggedIn">
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </v-app-bar>
 </template>

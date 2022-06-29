@@ -26,6 +26,12 @@
           <v-text-field class="textfield" v-model="email" required>
           </v-text-field>
         </v-col>
+         <p class="title-cat">User Code :</p>
+        <v-col cols="12" md="4">
+          <v-text-field class="textfield" required readonly>
+          {{$store.state.user._id.slice(19, 24)}}
+          </v-text-field>
+        </v-col>
         <p class="title-cat">Address :</p>
         <v-col cols="12" md="4">
           <v-text-field class="textfield" v-model="addressStreet" required></v-text-field>
@@ -210,7 +216,6 @@ export default defineComponent({
       this.orders = (
         await OrderService.getOrdersUser(this.$store.state.user._id)
       ).data.orders;
-
       this.getDatabyID(this.$store.state.user._id);
     } catch (err) {
       this.error = err.message;
