@@ -8,23 +8,23 @@ const ArticleSchema = new mongoose.Schema(
         },
         name: {
             type: String,
-            required: false
+            required: true
         },
         category: {
             type: String,
-            required: false
+            required: true
         },
         price: {
             type: Number,
-            required: false
+            required: true
         },
         description: {
             type: String,
-            required: false
+            required: true
         },
         picture: {
             type: String,
-            required: false
+            required: true
         },
         products: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -32,7 +32,7 @@ const ArticleSchema = new mongoose.Schema(
         }],
         available_quantity: {
             type: Number,
-            required: false
+            required: true
         }
     },
     { timestamps: true },
