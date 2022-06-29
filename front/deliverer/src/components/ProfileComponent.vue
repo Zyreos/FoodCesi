@@ -79,6 +79,7 @@ export default defineComponent({
       };
       console.log(update);
       UserService.updateUser(update.id, update).then(() => {
+        alert("Profile changed");
         this.getDatabyID(this.$store.state.user._id);
       });
     },
