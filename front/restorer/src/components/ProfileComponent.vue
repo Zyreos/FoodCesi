@@ -28,8 +28,16 @@
         </v-col>
         <p class="title-cat">Address :</p>
         <v-col cols="12" md="4">
-          <v-text-field class="textfield" v-model="address" required>
-          </v-text-field>
+          <v-text-field class="textfield" placeholder="Street" v-model="addressStreet" required></v-text-field>
+          <v-text-field class="textfield" placeholder="City" v-model="addressCity" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Postal Code" v-model="addressPostalCode" required></v-text-field>
+        </v-col>
+        <p class="title-cat">Restaurant :</p>
+        <v-col cols="12" md="4">
+          <v-text-field class="textfield" placeholder="Category" v-model="category" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Description" v-model="description" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Name restaurant" v-model="name_restaurant" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Profile picture" v-model="profile_picture" required></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
           <v-btn
@@ -58,17 +66,31 @@ export default defineComponent({
     show: false,
     show1: false,
     username: null,
-    address: null,
+    addressStreet: null,
+    addressCity: null,
+    addressPostalCode: null,
+    category: null,
+    description: null,
+    name_restaurant: null,
+    profile_picture: null,
     email: null,
     id: null,
   }),
   methods: {
     getDatabyID(id) {
       UserService.getUserByID(id).then((result) => {
+        this.$store.dispatch('setUser', result.data)
+
         this.user = result.data;
         this.username = result.data.username;
         this.email = result.data.email;
-        this.address = result.data.address;
+        this.addressStreet = result.data.address.street;
+        this.addressCity = result.data.address.city;
+        this.addressPostalCode = result.data.address.postal_code;
+        this.category = result.data.category;
+        this.description = result.data.description;
+        this.name_restaurant = result.data.name_restaurant;
+        this.profile_picture = result.data.profile_picture;
       });
     },
 
@@ -77,7 +99,15 @@ export default defineComponent({
         id: id,
         username: this.username,
         email: this.email,
-        address: this.address,
+        address: {
+          street: this.addressStreet,
+          city: this.addressCity,
+          postal_code: this.addressPostalCode
+        },
+        category: this.category,
+        description: this.description,
+        name_restaurant: this.name_restaurant,
+        profile_picture: this.profile_picture,
       };
       console.log(update);
       UserService.updateUser(update.id, update).then(() => {

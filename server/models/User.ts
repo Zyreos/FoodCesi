@@ -87,7 +87,6 @@ const UserSchema = new mongoose.Schema(
       },
       category: {
         type: String,
-        default: "active",
         required: false
       },
       description: {

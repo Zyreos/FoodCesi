@@ -1,12 +1,12 @@
 
 <template>
-    <div class="error" v-if="error">
-        {{ error }}
-    </div>
     <div v-if="!$store.state.user.address.city || !$store.state.user.address.street || !$store.state.user.address.postal_code">
         <h1>You need to have an address</h1>
     </div>
     <div v-else>
+        <div class="error" v-if="error">
+            {{ error }}
+        </div>
         <div id="container-restaurant" v-if="restaurant">
             <h1>{{ restaurant.username }}</h1>
             <p><b>Address : </b>{{ restaurant.address.street }}, {{ restaurant.address.city }},

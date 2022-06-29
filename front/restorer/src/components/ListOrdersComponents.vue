@@ -1,103 +1,107 @@
 <template>
-    <div>
-        <h1 class="title">List orders</h1>
+    <div v-if="!$store.state.isUserLoggedIn || $store.state.user.role !== 'restorer'">
+        <h1>You need to be connected as a restorer</h1>
     </div>
+    <div v-else>
+        <div>
+            <h1 class="title">List orders</h1>
+        </div>
+        <div class="error" v-if="error">
+            {{ error }}
+        </div>
+        <div class="subtitle">
+            <h2>To confirm</h2>
+        </div>
+        <v-divider class="divider"></v-divider>
+        <div id="container-list-orders" v-if="orders">
+            <v-row class="test">
+                <v-col cols="12" sm="3">
+                    <v-card class="mx-6 my-12" width="300" v-for="order in getOrders('Confirmation')">
+                        <v-card-title>
+                            Order : {{ order._id.slice(19, 24) }}
+                        </v-card-title>
 
-    <div class="error" v-if="error">
-        {{ error }}
+                        <v-card-title>
+                            Total price : {{ order.price.total_price }}$
+                        </v-card-title>
+
+                        <v-card-actions>
+                            <v-btn icon @click="show1 = !show1">
+                                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="cancelOrder(order)">
+                                <v-icon color="#DC143C">
+                                    mdi-close
+                                </v-icon>
+                            </v-btn>
+
+                            <v-btn @click="confirmOrder(order)">
+                                <v-icon color="secondary">
+                                    mdi-check
+                                </v-icon>
+                            </v-btn>
+                        </v-card-actions>
+                        <v-expand-transition>
+                            <div v-show="show1">
+
+                                <v-card-subtitle class="my-2" v-for="article in order.content">
+                                    {{ article }}
+                                </v-card-subtitle>
+
+                            </div>
+                        </v-expand-transition>
+
+                    </v-card>
+                </v-col>
+            </v-row>
+        </div>
+        <v-divider class="divider"></v-divider>
+        <div class="subtitle">
+            <h2>Preparation</h2>
+        </div>
+        <v-divider class="divider"></v-divider>
+        <div id="container-list-orders" v-if="orders">
+            <v-row class="test">
+                <v-col cols="12" sm="3">
+                    <v-card class="mx-6 my-12" width="300" v-for="order in getOrders('Preparation')">
+                        <v-card-title>
+                            Order : {{ order._id.slice(19, 24) }}
+                        </v-card-title>
+
+                        <v-card-title>
+                            Total price : {{ order.price.total_price }}$
+                        </v-card-title>
+
+                        <v-card-actions>
+                            <v-btn icon @click="show2 = !show2">
+                                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+
+                            <v-btn @click="prepareOrder(order)">
+                                <v-icon color="secondary">
+                                    mdi-check
+                                </v-icon>
+                            </v-btn>
+                        </v-card-actions>
+
+                        <v-expand-transition>
+                            <div v-show="show2">
+
+                                <v-card-subtitle class="articles" v-for="article in order.content">
+                                    {{ article }}
+                                </v-card-subtitle>
+
+                            </div>
+                        </v-expand-transition>
+                    </v-card>
+                </v-col>
+            </v-row>
+
+        </div>
+        <v-divider class="divider"></v-divider>
     </div>
-    <div class="subtitle">
-        <h2>To confirm</h2>
-    </div>
-    <v-divider class="divider"></v-divider>
-    <div id="container-list-orders" v-if="orders">
-        <v-row class="test">
-            <v-col cols="12" sm="3">
-                <v-card class="mx-6 my-12" width="300" v-for="order in getOrders('Confirmation')">
-                    <v-card-title>
-                        Order : {{ order._id.slice(19, 24) }}
-                    </v-card-title>
-
-                    <v-card-title>
-                        Total price : {{ order.price.total_price }}$
-                    </v-card-title>
-
-                    <v-card-actions>
-                        <v-btn icon @click="show1 = !show1">
-                            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                        </v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="cancelOrder(order)">
-                            <v-icon color="#DC143C">
-                                mdi-close
-                            </v-icon>
-                        </v-btn>
-
-                        <v-btn @click="confirmOrder(order)">
-                            <v-icon color="secondary">
-                                mdi-check
-                            </v-icon>
-                        </v-btn>
-                    </v-card-actions>
-                    <v-expand-transition>
-                        <div v-show="show1">
-
-                            <v-card-subtitle class="my-2" v-for="article in order.content">
-                                {{ article }}
-                            </v-card-subtitle>
-
-                        </div>
-                    </v-expand-transition>
-
-                </v-card>
-            </v-col>
-        </v-row>
-    </div>
-    <v-divider class="divider"></v-divider>
-    <div class="subtitle">
-        <h2>Preparation</h2>
-    </div>
-    <v-divider class="divider"></v-divider>
-    <div id="container-list-orders" v-if="orders">
-        <v-row class="test">
-            <v-col cols="12" sm="3">
-                <v-card class="mx-6 my-12" width="300" v-for="order in getOrders('Preparation')">
-                    <v-card-title>
-                        Order : {{ order._id.slice(19, 24) }}
-                    </v-card-title>
-
-                    <v-card-title>
-                        Total price : {{ order.price.total_price }}$
-                    </v-card-title>
-
-                    <v-card-actions>
-                        <v-btn icon @click="show2 = !show2">
-                            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                        </v-btn>
-                        <v-spacer></v-spacer>
-
-                        <v-btn @click="prepareOrder(order)">
-                            <v-icon color="secondary">
-                                mdi-check
-                            </v-icon>
-                        </v-btn>
-                    </v-card-actions>
-
-                    <v-expand-transition>
-                        <div v-show="show2">
-
-                            <v-card-subtitle class="articles" v-for="article in order.content">
-                                {{ article }}
-                            </v-card-subtitle>
-
-                        </div>
-                    </v-expand-transition>
-                </v-card>
-            </v-col>
-        </v-row>
-
-    </div>
-    <v-divider class="divider"></v-divider>
 </template>
 
 <script>

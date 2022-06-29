@@ -28,9 +28,9 @@
         </v-col>
         <p class="title-cat">Address :</p>
         <v-col cols="12" md="4">
-          <v-text-field class="textfield" v-model="addressStreet" required></v-text-field>
-          <v-text-field class="textfield" v-model="addressCity" required></v-text-field>
-          <v-text-field class="textfield" v-model="addressPostalCode" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Street" v-model="addressStreet" required></v-text-field>
+          <v-text-field class="textfield" placeholder="City" v-model="addressCity" required></v-text-field>
+          <v-text-field class="textfield" placeholder="Postal Code" v-model="addressPostalCode" required></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
           <p class="title-age">Age :</p>
