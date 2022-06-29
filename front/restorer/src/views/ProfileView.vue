@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-<page-profile/>
+    <page-profile />
   </div>
 </template>
 <script>
@@ -8,7 +8,7 @@ import PageProfile from "@/components/ProfileComponent.vue";
 
 export default {
   components: {
-        PageProfile,
+    PageProfile,
   },
 };
 </script>
