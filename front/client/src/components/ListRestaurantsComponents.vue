@@ -193,6 +193,7 @@ export default defineComponent({
           "pizza": 'pizza',
           "indien": 'indien', 
           "pates": 'pates',
+          "libanese": 'libanese',
         }
       }),
     methods: {
@@ -301,6 +302,13 @@ export default defineComponent({
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
+    }
+    .libanese {
+      color: white !important;
+      background-color: rgb(158, 158, 81);
+      max-height: 50%;
+      margin-left: 5px;
+      margin-top: 5px;
     }
     .categories {
       margin-top: 10px;
