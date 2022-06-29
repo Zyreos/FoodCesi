@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Bienvenue sur la view Register</h1>
+    <h1>Register</h1>
     <page-register />
   </div>
 </template>
