@@ -37,6 +37,15 @@ module.exports = (app) => {
   app.get('/orders/:id',
   OrderController.getOrdersByUser)
 
+  app.get('/orders_delivering',
+    OrderController.getOrdersDelivering)
+
+  app.put('/order_confirm_deliverer/:id_order/:id_user',
+    OrderController.updateOrderWithDeliverer)
+
+  app.put('/changeOrderState/:id_order',
+    OrderController.changeOrderState)
+
   app.post('/create_article',
   ArticleController.createArticle)
 

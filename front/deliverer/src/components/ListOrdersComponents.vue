@@ -1,60 +1,121 @@
 <template>
     <h1>List orders</h1>
     <div class="error" v-if="error">
-        {{error}}
+        {{ error }}
     </div>
-    <h2>To confirm</h2>
-    <div id="container-list-orders" v-if="orders">
-        <div class="orders-confirm" v-for="order in getOrders('Confirmation')">
-        <p><b>Total price :</b> {{ order.price.total_price }}$</p>
-        <!-- click to see the content -->
-        <div class="container-articles">
-            <p v-for="article in order.content">{{ article }}</p>
-        </div>
-        <div class="container-buttons">
-            <v-btn elevation="2">Cancel</v-btn>
-            <v-btn elevation="2">Confirmation</v-btn>
-        </div>
-      </div>
+    <h2>To Deliver</h2>
+    <div id="container-list-orders" v-if="ordersDelivering">
+
+        <v-card class="mx-6 my-12" width="250" v-for="order in getOrdersWithoutDeliverer()">
+
+            <v-card-title>
+                Address : {{ order.address }}
+            </v-card-title>
+
+            <v-card-actions>
+                <v-btn icon @click="show1 = !show1">
+                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+
+                <v-btn @click="confirmDelivererOrder(order)">
+                    <v-icon color="secondary">
+                        mdi-check
+                    </v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+                <div v-show="show1">
+
+                    <v-card-subtitle class="my-2" v-for="article in order.content">
+                        {{ article }}
+                    </v-card-subtitle>
+
+                </div>
+            </v-expand-transition>
+
+        </v-card>
     </div>
-    <h2>Preparation</h2>
-    <div id="container-list-orders" v-if="orders">
-        <div class="orders-confirm" v-for="order in getOrders('Preparation')">
-        <p><b>Total price :</b> {{ order.price.total_price }}$</p>
-        <!-- click to see the content -->
-        <div class="container-articles">
-            <p v-for="article in order.content">{{ article }}</p>
-        </div>
-        <div class="container-buttons">
-            <v-btn elevation="2">Prepared</v-btn>
-        </div>
-      </div>
+    <h2>Delivered</h2>
+    <div id="container-list-orders" v-if="ordersDelivering">
+        <v-card class="mx-6 my-12" width="250" v-for="order in getOrdersToDelivered()">
+            <v-card-title>
+                Total price : {{ order.price.total_price }}$
+            </v-card-title>
+
+            <v-card-actions>
+                <v-btn icon @click="show2 = !show2">
+                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+
+                <v-btn @click="confirmDeliveredOrder(order)">
+                    <v-icon color="secondary">
+                        mdi-check
+                    </v-icon>
+                </v-btn>
+            </v-card-actions>
+
+            <v-expand-transition>
+                <div v-show="show2">
+
+                    <v-card-subtitle class="my-2" v-for="article in order.content">
+                        {{ article }}
+                    </v-card-subtitle>
+
+                </div>
+            </v-expand-transition>
+        </v-card>
     </div>
 </template>
 
 <script>
-    import { defineComponent } from 'vue';
-    import OrderService from "../../../global/services/OrderService";
+import { defineComponent } from 'vue';
+import OrderService from "../../../global/services/OrderService";
 
-    export default defineComponent({
-        name: 'Orders',
-        data: () => ({
-            orders: null,
-            error: null,
-        }),
-        methods: {
-            getOrders(status) {
-                const completedOrders = this.orders.filter(tmpOrder => tmpOrder.state === status);
-                return completedOrders;
-            }
+export default defineComponent({
+    name: 'Orders',
+    data: () => ({
+        show1: false,
+        show2: false,
+        ordersDelivering: null,
+        error: null,
+    }),
+    methods: {
+        getOrdersWithoutDeliverer() {
+            const tmpOrders = this.ordersDelivering.filter(tmpOrder => tmpOrder.users.deliverer_id == undefined);
+            return tmpOrders;
         },
-        async mounted() {
-            try {
-                this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
-                console.log(this.orders);
-            } catch (err) {
-                this.error = err.message;
-            }
+        getOrdersToDelivered() {
+            const tmpOrders = this.ordersDelivering.filter(tmpOrder => tmpOrder.users.deliverer_id === this.$store.state.user._id);
+            return tmpOrders;
         },
-    });
+        async confirmDelivererOrder(order) {
+            const response = await OrderService.confirmDelivererOrder(order._id, this.$store.state.user._id, {users: order.users});
+            if(response.status == 200){
+                console.log(response);
+                //reload page
+                this.ordersDelivering = (await OrderService.getOrdersDelivering()).data.orders;
+            } 
+        },
+        async confirmDeliveredOrder(order) {
+            const response = await OrderService.changeOrderState(order._id, {
+                state: "Delivered"
+            });
+            if(response.status == 200){
+                console.log(response);
+                //reload page
+                this.ordersDelivering = (await OrderService.getOrdersDelivering()).data.orders;
+            } 
+        }
+    },
+    async mounted() {
+        try {
+            this.ordersDelivering = (await OrderService.getOrdersDelivering()).data.orders;
+            console.log(this.ordersDelivering);
+        } catch (err) {
+            this.error = err.message;
+        }
+    },
+});
 </script>

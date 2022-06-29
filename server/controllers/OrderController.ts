@@ -32,6 +32,23 @@ module.exports = class OrderConrtoller {
         }
     }
 
+    static async getOrdersDelivering(req, res) {
+        Order
+            .find({state: "Delivering"})
+            .select()
+            .then(function(orders) {
+                try {
+                    res.send({
+                        orders: orders
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        error: 'Impossible to get the delivering orders.'
+                    })
+                }
+            });
+    }
+
     static async createOrderPost(req, res) {
         const order = new Order(req.body);
         try {
@@ -82,4 +99,37 @@ module.exports = class OrderConrtoller {
         }
     }
 
+    static async updateOrderWithDeliverer(req, res) {
+        const idOrder = req.params.id_order;
+        const idDeliverer = req.params.id_user;
+        let body = req.body.users;
+        body.deliverer_id = idDeliverer;
+
+        Order.findByIdAndUpdate(idOrder, {users: body}, { useFindAndModify: false, upsert: true})
+            .then(data => {
+                if(!data){
+                    res.status(404).send({ message : `Cannot Update order with ${id}. Maybe order not found!`})
+                }else{
+                    res.send(data)
+                }
+            })
+            .catch(err =>{
+                res.status(500).send({ message : "Error Update user information"})
+            })
+    }
+
+    static async changeOrderState(req, res) {
+        const idOrder = req.params.id_order;
+        Order.findByIdAndUpdate(idOrder, req.body, { useFindAndModify: false})
+            .then(data => {
+                if(!data){
+                    res.status(404).send({ message : `Cannot Update order with ${id}. Maybe order not found!`})
+                }else{
+                    res.send(data)
+                }
+            })
+            .catch(err =>{
+                res.status(500).send({ message : "Error Update user information"})
+            })
+    }
 }
