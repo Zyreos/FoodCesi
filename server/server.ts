@@ -1,16 +1,19 @@
 let express = require("express");
 let mongoose = require("mongoose");
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 require("dotenv").config();
 
 const app = express()
 const corsOptions = {
   origin: 'http://localhost:8080',
-  optionsSuccessStatus: 200 // For legacy browser support
+  optionsSuccessStatus: 200, // For legacy browser support
 }
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
+
 app.get('/test', (req, res)=> {
   res.send("Sucess")
 })

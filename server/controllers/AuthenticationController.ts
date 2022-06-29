@@ -2,8 +2,8 @@ const userModel = require("../models/User.ts");
 const jwt = require('jsonwebtoken');
 const config = require('../config/config.ts')
 
-function jwtSignUser (user) {
-    const ONE_WEEK = 60 * 60 * 24 * 7;
+const ONE_WEEK = 60 * 60 * 24 * 7;
+const jwtSignUser = (user) => {
     return jwt.sign({user}, config.authentication.jwtSecret, {
         expiresIn: ONE_WEEK
     })  
@@ -12,12 +12,11 @@ function jwtSignUser (user) {
 module.exports = {
     async register(req, res) {
         const user = new userModel(req.body);
+        const userToken = jwtSignUser(user);
         try {
             await user.save();
-            res.send({
-                user: user,
-                token: jwtSignUser(user)
-            });
+            res.cookie('jwt', userToken, { httpOnly: true, secure: false, maxAge: ONE_WEEK * 1000 });
+            res.status(201).json({ user: user, token: userToken });
         } catch (err) {
             res.status(400).send({
                 error: 'This email account is already in use.'
@@ -30,6 +29,7 @@ module.exports = {
             const user = await userModel.findOne({
                 email: email
             })
+            const userToken = jwtSignUser(user);
 
             if (!user) {
                 return res.status(403).send({
@@ -44,10 +44,8 @@ module.exports = {
                 })
             }
 
-            res.send({
-                user: user,
-                token: jwtSignUser(user)
-            });
+            res.cookie('jwt', userToken, { httpOnly: true, secure: false, maxAge: ONE_WEEK * 1000 });
+            res.status(201).json({ user: user, token: userToken });
             return user;
         } catch (err) {
             res.status(500).send({
