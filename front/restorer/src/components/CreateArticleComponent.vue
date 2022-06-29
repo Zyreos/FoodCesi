@@ -84,6 +84,13 @@ export default {
           //reload page
           console.log(response);
           this.reset();
+          try {
+            const productsRestaurant = (await ArticleService.getArticlesRestaurant(this.$store.state.user._id)).data.articles;
+            this.itemsArticles = productsRestaurant.filter(article => article.products.length == 0);
+            console.log(this.itemsArticles);
+          } catch (err) {
+            this.error = err.message;
+          }
         } 
       } catch (error) {
         this.error = error.response.data.error
@@ -102,13 +109,6 @@ export default {
     } catch (err) {
       this.error = err.message;
     }
-
-            // try {
-            //     this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
-            //     console.log(this.orders);
-            // } catch (err) {
-            //     this.error = err.message;
-            // }
   },
 }
 </script>
