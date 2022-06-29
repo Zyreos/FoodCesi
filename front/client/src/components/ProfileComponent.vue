@@ -80,7 +80,8 @@
             <p><b>Fee deliverer :</b> {{ order.price.fee_deliverer }}$</p>
             <p><b>Tip :</b> {{ order.price.tip }}$</p>
             <p><b>Sum product prices :</b> {{ order.price.total_price }}$</p>
-            <p><b>Order content :</b> {{ order.content }}</p>
+            <p><b>Order content :</b></p>
+            <li v-for="line in order.content">{{ line }}</li>
           </div>
           <v-divider></v-divider>
         </div>
@@ -201,6 +202,7 @@ export default defineComponent({
       console.log(update);
 
       UserService.updateUser(update.id, update).then(() => {
+        alert("Profile changed");
         this.getDatabyID(this.$store.state.user._id);
       });
     },

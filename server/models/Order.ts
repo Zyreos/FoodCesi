@@ -32,6 +32,7 @@ const OrderSchema = new mongoose.Schema(
         },
         eta: {
             type: Number,
+            default: 30,
             required: false
         },
         address: {

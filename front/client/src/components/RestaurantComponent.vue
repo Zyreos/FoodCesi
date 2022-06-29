@@ -1,6 +1,9 @@
 
 <template>
-    <div v-if="!$store.state.user.address.city || !$store.state.user.address.street || !$store.state.user.address.postal_code">
+    <div v-if="!$store.state.isUserLoggedIn">
+        <h1>You need to be connected.</h1>
+    </div>
+    <div v-else-if="!$store.state.user.address || !$store.state.user.address.city || !$store.state.user.address.street || !$store.state.user.address.postal_code">
         <h1>You need to have an address</h1>
     </div>
     <div v-else>
@@ -8,7 +11,7 @@
             {{ error }}
         </div>
         <div id="container-restaurant" v-if="restaurant">
-            <h1>{{ restaurant.username }}</h1>
+            <h1>{{ restaurant.name_restaurant }}</h1>
             <p><b>Address : </b>{{ restaurant.address.street }}, {{ restaurant.address.city }},
                 {{ restaurant.address.postal_code }}</p>
             <p>{{ restaurant.description }}</p>
@@ -54,8 +57,7 @@
                                     <v-card-text>
                                         <div class="my-4" v-for="productId in article.products"
                                             :set="tmpArticle = getArticleById(productId)">
-                                            <p>{{ tmpArticle.name }}</p>
-                                            <p>{{ tmpArticle.category }}</p>
+                                            <p><b>{{ tmpArticle.name }}</b> ({{ tmpArticle.category }})</p>
                                             <p>{{ tmpArticle.description }}</p>
                                         </div>
                                         <br />
@@ -210,6 +212,10 @@ export default {
             //setup basket
             this.basket.idRestaurant = idRestaurant;
             this.basket.idUser = this.$store.state.user._id;
+            this.basket.address =
+                this.$store.state.user.address.street + ", " +
+                this.$store.state.user.address.city + ", " +
+                this.$store.state.user.address.postal_code
         } catch (err) {
             this.error = err.message;
         }
