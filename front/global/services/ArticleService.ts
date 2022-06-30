@@ -7,4 +7,7 @@ export default {
     newArticle(credentials: any) {
         return Api().post("create_article", credentials);
     },
+    deleteArticle(idArticle) {
+        return Api().delete(`article/${idArticle}/delete`)
+    },
 };

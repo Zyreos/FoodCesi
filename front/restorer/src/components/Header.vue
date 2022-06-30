@@ -38,6 +38,10 @@
             <v-icon>mdi-folder-plus</v-icon>
             <v-list-item-title>Create</v-list-item-title>
         </v-list-item>
+        <v-list-item :to="'/edit_article'" link v-if="$store.state.isUserLoggedIn">
+            <v-icon>mdi-folder-plus</v-icon>
+            <v-list-item-title>List articles</v-list-item-title>
+        </v-list-item>
         <page-disconnect />
       </v-list>
     </v-navigation-drawer>

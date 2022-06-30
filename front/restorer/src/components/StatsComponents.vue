@@ -59,7 +59,7 @@ export default defineComponent({
     methods: {
         averagePrice() {
             const avg = this.orders.reduce((r, c) => r + c.price.total_price, 0) / this.orders.length;
-            return avg;
+            return Math.round(avg);
         },
         setNbOrdersPerDayChartData() {
             const listTime = [];
