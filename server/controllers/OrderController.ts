@@ -12,7 +12,7 @@ module.exports = class OrderConrtoller {
     static async getOrdersByUser(req, res) {
         if(mongoose.Types.ObjectId.isValid(req.params.id)) {
             Order
-                .find({user: req.params.id})
+                .find({'users.user_id': req.params.id})
                 .select()
                 .then(function(orders) {
                     try {
