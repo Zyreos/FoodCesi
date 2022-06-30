@@ -43,7 +43,7 @@
           <v-text-field class="textage" v-model="age" style="width: 80px">
           </v-text-field>
           <v-btn
-            color="blue-darken-1"
+            color="primary"
             v-on:Click="getForm($store.state.user._id)"
             @click="dialog = false"
           >
