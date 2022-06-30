@@ -1,20 +1,41 @@
 <template>
     <div class="error" v-html="error" />
     <div v-if="orders">
-        <h1>Stats</h1>
-        <p><b>number of orders:</b> {{ orders.length }}</p>
-        <p><b>average price of an order:</b> {{ averagePrice() }}$</p>
+        <div class="title">
+            <h1>Stats</h1>
+        </div>
+        <v-divider class="divider"></v-divider>
+        <p class="title-cat"><b>Number Of Orders:</b></p>
+        <v-row>
+            <v-col cols="24" sm="1">
+                
+            <v-btn class="textfield">
+                {{ orders.length }}
+            </v-btn>
+            </v-col>
+            <v-divider class="divider"></v-divider>
+            <v-col cols="24" sm="3">
+            <p class="title-cat"><b>Average price of an order:</b> </p>
+            <v-btn class="textfield">
+               {{ averagePrice() }}$
+            </v-btn>
+            </v-col>
+            <v-divider class="divider"></v-divider>
+        </v-row>
+
+        
 
         <h2>Number of orders per day</h2>
         <NbOrdersPerDayChart :chart-data="nbOrdersPerDayChartData" :height="150" />
-
+        <v-divider class="divider"></v-divider>
         <h2>Number of orders per hour</h2>
         <NbOrdersPerHourChart :chart-data="nbOrdersPerHourChartData" :height="150" />
-
+        <v-divider class="divider"></v-divider>
         <h2>Most popular articles</h2>
         <v-container class="my-5" style="width: 600px; height: 800px;">
             <MostPopularArticlesChart :chart-data="mostPopularArticlesChartData" />
         </v-container>
+        <v-divider class="divider"></v-divider>
     </div>
 </template>
 
@@ -211,3 +232,28 @@ export default defineComponent({
     },
 })
 </script>
+
+<style>
+.divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.title {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 20px;
+}
+
+.textfield {
+    margin-left: 10px;
+    width: 50%;
+}
+.title-cat {
+margin-left: 10px;
+
+}
+</style>
