@@ -22,6 +22,10 @@
             <v-icon>mdi-account-circle</v-icon>
             <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
+        <v-list-item :to="'/stats'" link v-if="$store.state.isUserLoggedIn">
+            <v-icon>mdi-account-circle</v-icon>
+            <v-list-item-title>Stats</v-list-item-title>
+        </v-list-item>
         <v-list-item :to="'/register'" link v-if="!$store.state.isUserLoggedIn">
             <v-icon>mdi-account-plus</v-icon>
             <v-list-item-title>Register</v-list-item-title>
