@@ -127,7 +127,7 @@ export default defineComponent({
             });
             if (response.status == 200) {
                 //reload page
-                this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                this.orders = (await OrderService.getOrdersRestaurant(this.$store.state.user._id)).data.orders;
             }
         },
         async confirmOrder(order) {
@@ -136,7 +136,7 @@ export default defineComponent({
             });
             if (response.status == 200) {
                 //reload page
-                this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                this.orders = (await OrderService.getOrdersRestaurant(this.$store.state.user._id)).data.orders;
             }
         },
         async prepareOrder(order) {
@@ -145,13 +145,13 @@ export default defineComponent({
             });
             if (response.status == 200) {
                 //reload page
-                this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+                this.orders = (await OrderService.getOrdersRestaurant(this.$store.state.user._id)).data.orders;
             }
         }
     },
     async mounted() {
         try {
-            this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+            this.orders = (await OrderService.getOrdersRestaurant(this.$store.state.user._id)).data.orders;
             console.log(this.orders);
         } catch (err) {
             this.error = err.message;

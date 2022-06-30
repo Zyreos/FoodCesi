@@ -32,6 +32,29 @@ module.exports = class OrderConrtoller {
         }
     }
 
+    static async getOrdersByRestaurant(req, res) {
+        if(mongoose.Types.ObjectId.isValid(req.params.id)) {
+            Order
+                .find({'users.restorer_id': req.params.id})
+                .select()
+                .then(function(orders) {
+                    try {
+                        res.send({
+                        orders: orders
+                    });
+                    } catch (err) {
+                        res.status(400).send({
+                        error: 'Impossible to get the right order.'
+                    })
+                    }
+                });
+        } else {
+            res.status(404).send({
+                error: 'No Order found for this user'
+            })
+        }
+    }
+
     static async getOrdersDelivering(req, res) {
         Order
             .find({state: "Delivering"})

@@ -7,6 +7,9 @@ export default {
   getOrdersUser(idUser) {
     return Api().get(`orders/${idUser}`);
   },
+  getOrdersRestaurant(idUser) {
+    return Api().get(`orders/restaurants/${idUser}`);
+  },
   getOrdersDelivering() {
     return Api().get("orders_delivering");
   },

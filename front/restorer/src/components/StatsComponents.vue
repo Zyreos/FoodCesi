@@ -201,7 +201,7 @@ export default defineComponent({
     async mounted() {
         try {
             this.articles = (await ArticleService.getArticlesRestaurant(this.$store.state.user._id)).data.articles;
-            this.orders = (await OrderService.getOrdersUser(this.$store.state.user._id)).data.orders;
+            this.orders = (await OrderService.getOrdersRestaurant(this.$store.state.user._id)).data.orders;
             this.setNbOrdersPerDayChartData();
             this.setNbOrdersPerHourChartData();
             this.setMostPopularArticlesChartData();

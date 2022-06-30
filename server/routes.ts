@@ -14,27 +14,21 @@ module.exports = (app) => {
     AuthenticationController.login)
 
   app.get('/users',
-    AuthenticationController.requireAuth,
     UserController.getAllUsers)
 
   app.get('/restaurants',
-    AuthenticationController.requireAuth,
     RestaurantController.getAllRestaurants)
 
   app.get('/restaurants/category/:category',
-    AuthenticationController.requireAuth,
     RestaurantController.getRestaurantsByCategory)
 
   app.get('/categories',
-    AuthenticationController.requireAuth,
     RestaurantController.getAllCategories)
 
   app.get('/restaurants/:id',
-    AuthenticationController.requireAuth,
     RestaurantController.getRestaurant)
 
   app.post('/create_order',
-    AuthenticationController.requireAuth,
     OrderController.createOrderPost)
 
   app.post('/newOrder',
@@ -42,6 +36,9 @@ module.exports = (app) => {
 
   app.get('/orders/:id',
     OrderController.getOrdersByUser)
+
+  app.get('/orders/restaurants/:id',
+    OrderController.getOrdersByRestaurant)
 
   app.get('/orders_delivering',
     OrderController.getOrdersDelivering)
@@ -65,14 +62,11 @@ module.exports = (app) => {
     UserController.getUserById)
 
   app.delete('/users/:id',
-    AuthenticationController.requireAuth,
     UserController.deleteUser)
 
   app.put('/users/:id',
-    AuthenticationController.requireAuth,
     UserController.updateUser)
 
   app.put('/changeOrderState/:id_order',
-    AuthenticationController.requireAuth,
     OrderController.changeOrderState)
 }
