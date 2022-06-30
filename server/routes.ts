@@ -32,10 +32,10 @@ module.exports = (app) => {
     OrderController.createOrderPost)
 
   app.post('/newOrder',
-  OrderController.createOrder)
+    OrderController.createOrder)
 
   app.get('/orders/:id',
-  OrderController.getOrdersByUser)
+    OrderController.getOrdersByUser)
 
   app.get('/orders_delivering',
     OrderController.getOrdersDelivering)
@@ -43,17 +43,20 @@ module.exports = (app) => {
   app.put('/order_confirm_deliverer/:id_order/:id_user',
     OrderController.updateOrderWithDeliverer)
 
+  app.delete('/orders/:id',
+    OrderController.deleteOrder)
+
   app.put('/changeOrderState/:id_order',
     OrderController.changeOrderState)
 
   app.post('/create_article',
-  ArticleController.createArticle)
+    ArticleController.createArticle)
 
   app.get('/articles/:id',
-  ArticleController.getArticlesByUser)
+    ArticleController.getArticlesByUser)
 
   app.get('/users/:id',
-  UserController.getUserById)
+    UserController.getUserById)
 
   app.delete('/users/:id',
     UserController.deleteUser)
