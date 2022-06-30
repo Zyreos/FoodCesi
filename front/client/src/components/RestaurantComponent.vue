@@ -148,12 +148,12 @@ export default {
             }, 0);
             this.basket.total_price = sum;
         },
-        getArticleById(idArticle) {
-            const article = this.articles.find(x => x._id === idArticle);
+        getArticleById(article_id) {
+            const article = this.articles.find(x => x._id === article_id);
             return article;
         },
         AddArticleToBasket(article) {
-            if (this.basket.articles.find(x => x.idArticle === article._id)) {
+            if (this.basket.articles.find(x => x.article_id === article._id)) {
                 this.AddQuantityArticle(article, 1);
             }
             else {
@@ -165,14 +165,14 @@ export default {
         AddNewArticle(article) {
             this.basket.articles.push({
                 quantity: 1,
-                idArticle: article._id,
+                article_id: article._id,
                 price: article.price,
                 name: article.name,
                 available_quantity: article.available_quantity
             });
         },
         AddQuantityArticle(article, nbArticlesAdd) {
-            const index = this.basket.articles.findIndex(x => (x.idArticle === article._id) || (x.idArticle === article.idArticle));
+            const index = this.basket.articles.findIndex(x => (x.article_id === article._id) || (x.article_id === article.article_id));
             this.basket.articles[index].quantity = this.basket.articles[index].quantity + nbArticlesAdd;
             //if quantity > quantity available
             if (this.basket.articles[index].quantity > article.available_quantity) {
@@ -181,7 +181,7 @@ export default {
             this.setTotalPrice();
         },
         RemoveQuantityArticle(article, nbArticlesAdd) {
-            const index = this.basket.articles.findIndex(x => x.idArticle === article.idArticle);
+            const index = this.basket.articles.findIndex(x => x.article_id === article.article_id);
             this.basket.articles[index].quantity = this.basket.articles[index].quantity - nbArticlesAdd;
             //if quantity is null, remove product from basket
             if (this.basket.articles[index].quantity <= 0) {
