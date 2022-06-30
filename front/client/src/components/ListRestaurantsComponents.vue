@@ -57,7 +57,7 @@
             <v-divider class="mx-4"></v-divider>
             <v-card-actions>
               <v-btn
-                color="deep-purple lighten-2"
+                color="primary"
                 text
                 @click="reserve(restaurant._id)"
               >

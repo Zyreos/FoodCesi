@@ -5,6 +5,19 @@ import 'vuetify/styles'
 // Vuetify
 import { createVuetify } from 'vuetify'
 
-export default createVuetify(
-  // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
-)
+export default createVuetify({
+  theme: {
+    defaultTheme: 'myCustomTheme',
+    themes: {
+      myCustomTheme: {
+        dark: false,
+        colors: {
+          background: '#FFFFFF',
+          primary: '#62A0A7',
+          // more colors
+        },
+        variables: {} //ADD AN EMPTY OBJECT
+     }
+   }
+  }
+})

@@ -54,10 +54,10 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" text @click="dialog = false">
+                <v-btn color="error" text @click="dialog = false">
                   Close
                 </v-btn>
-                <v-btn color="blue-darken-1" v-on:Click="getForm(user._id)" @click="dialog = false">
+                <v-btn color="primary" v-on:Click="getForm(user._id)" @click="dialog = false">
                   Save
                 </v-btn>
               </v-card-actions>
