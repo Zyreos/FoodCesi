@@ -58,6 +58,9 @@ module.exports = (app) => {
   app.get('/articles/:id',
     ArticleController.getArticlesByUser)
 
+  app.delete('/article/:id_article/delete',
+    ArticleController.deleteArticle)
+
   app.get('/users/:id',
     UserController.getUserById)
 

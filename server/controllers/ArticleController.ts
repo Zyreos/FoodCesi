@@ -46,4 +46,23 @@ module.exports = class ArticleConrtoller {
         }
     }
 
+    static async deleteArticle(req, res) {
+        const idArticle = req.params.id_article;
+        
+        Article.findByIdAndDelete(idArticle)
+        .then(data => {
+            if(!data){
+                res.status(404).send({ message : `Cannot Delete with id ${idArticle}. Maybe id is wrong`})
+            }else{
+                res.send({
+                    message : "Article was deleted successfully!"
+                })
+            }
+        })
+        .catch(err =>{
+            res.status(500).send({
+                message: "Could not delete Article with id=" + idArticle
+            });
+        });
+    }
 }

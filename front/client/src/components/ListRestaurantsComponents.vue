@@ -57,7 +57,6 @@
             <v-divider class="mx-4"></v-divider>
             <v-card-actions>
               <v-btn
-                color="primary"
                 text
                 @click="reserve(restaurant._id)"
               >
@@ -78,7 +77,6 @@
                 <v-card-text>
                   <v-chip-group
                     v-model="selection"
-                    active-class="deep-purple accent-4 white--text"
                     column
                     >
                       <div class="open-time">Tous les jours :</div>
@@ -129,7 +127,6 @@
             <v-divider class="mx-4"></v-divider>
             <v-card-actions>
               <v-btn
-                color="deep-purple lighten-2"
                 text
                 @click="reserve(restaurant._id)"
               >
@@ -150,7 +147,6 @@
                 <v-card-text>
                   <v-chip-group
                     v-model="selection"
-                    active-class="deep-purple accent-4 white--text"
                     column
                     >
                       <div class="open-time">Tous les jours :</div>
@@ -249,28 +245,28 @@ export default defineComponent({
   }
   .fast-food {
         color: white !important;
-        background-color: green;
+        background-color: #b3e1c7;
         margin-left: 5px;
         margin-top: 5px;
         max-height: 50%;
     }
     .burger {
         color: white !important;
-        background-color: orange;
+        background-color: #f2c7a2;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
     }
     .course {
         color: white !important;
-        background-color: purple;
+        background-color: #a787ea;
         margin-left: 5px;
         max-height: 50%;
         margin-top: 5px;
     }
     .asia {
         color: white !important;
-        background-color: red;
+        background-color: #ff9c8a;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
@@ -284,21 +280,21 @@ export default defineComponent({
     }
     .pizza {
         color: white !important;
-        background-color: blue;
+        background-color: #75bcff;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
     }
     .indien {
         color: white !important;
-        background-color: rgb(0, 0, 0);
+        background-color: #202622;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;
     }
     .pates {
         color: white !important;
-        background-color: brown;
+        background-color: #ffe76b;
         max-height: 50%;
         margin-left: 5px;
         margin-top: 5px;

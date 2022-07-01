@@ -13,7 +13,7 @@ export default createVuetify({
         dark: false,
         colors: {
           background: '#FFFFFF',
-          primary: '#62A0A7',
+          primary: '#96bafe',
           // more colors
         },
         variables: {} //ADD AN EMPTY OBJECT
